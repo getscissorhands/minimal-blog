@@ -1,7 +1,7 @@
 {
   "name": "Minimal Blog",
   "version": "1.0.0",
-  "description": "A minimal blog using Tailwind CSS for ScissorHands.NET, inspired by [astro-minimal-blog](https://github.com/alexanderhodes/astro-minimal-blog).",
+  "description": "A minimal blog theme using Tailwind CSS for ScissorHands.NET, inspired by [astro-minimal-blog](https://github.com/alexanderhodes/astro-minimal-blog).",
   "slug": "minimal-blog",
   "stylesheets": [
     "/assets/css/theme.css"
