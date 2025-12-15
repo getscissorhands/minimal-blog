@@ -78,8 +78,15 @@ body {
     color: var(--accent-hover);
 }
 
+/* Header Actions Container */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 /* Dark Mode Toggle */
-.dark-mode-toggle {
+.dark-mode-toggle, .dark-mode-toggle-github {
     background: none;
     border: none;
     cursor: pointer;
@@ -91,11 +98,11 @@ body {
     transition: opacity 0.2s ease;
 }
 
-.dark-mode-toggle:hover {
+.dark-mode-toggle:hover, .dark-mode-toggle-github:hover {
     opacity: 0.7;
 }
 
-.dark-mode-toggle svg {
+.dark-mode-toggle svg, .dark-mode-toggle-github svg {
     width: 24px;
     height: 24px;
 }

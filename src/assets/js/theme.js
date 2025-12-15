@@ -7,6 +7,8 @@
         const darkModeToggle = document.getElementById('dark-mode-toggle');
         if (!darkModeToggle) return;
 
+        const sunIconGH = document.querySelector('.sun-icon-github');
+        const moonIconGH = document.querySelector('.moon-icon-github');
         const sunIcon = darkModeToggle.querySelector('.sun-icon');
         const moonIcon = darkModeToggle.querySelector('.moon-icon');
         
@@ -16,10 +18,14 @@
         
         if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
             document.documentElement.classList.add('dark');
+            if (sunIconGH) sunIconGH.style.display = 'none';
+            if (moonIconGH) moonIconGH.style.display = 'block';
             if (sunIcon) sunIcon.style.display = 'none';
             if (moonIcon) moonIcon.style.display = 'block';
         } else {
             document.documentElement.classList.remove('dark');
+            if (sunIconGH) sunIconGH.style.display = 'block';
+            if (moonIconGH) moonIconGH.style.display = 'none';
             if (sunIcon) sunIcon.style.display = 'block';
             if (moonIcon) moonIcon.style.display = 'none';
         }
@@ -30,16 +36,22 @@
         const darkModeToggle = document.getElementById('dark-mode-toggle');
         if (!darkModeToggle) return;
 
+        const sunIconGH = document.querySelector('.sun-icon-github');
+        const moonIconGH = document.querySelector('.moon-icon-github');
         const sunIcon = darkModeToggle.querySelector('.sun-icon');
         const moonIcon = darkModeToggle.querySelector('.moon-icon');
         const isDark = document.documentElement.classList.toggle('dark');
         
         if (isDark) {
             localStorage.setItem('theme', 'dark');
+            if (sunIconGH) sunIconGH.style.display = 'none';
+            if (moonIconGH) moonIconGH.style.display = 'block';
             if (sunIcon) sunIcon.style.display = 'none';
             if (moonIcon) moonIcon.style.display = 'block';
         } else {
             localStorage.setItem('theme', 'light');
+            if (sunIconGH) sunIconGH.style.display = 'block';
+            if (moonIconGH) moonIconGH.style.display = 'none';
             if (sunIcon) sunIcon.style.display = 'block';
             if (moonIcon) moonIcon.style.display = 'none';
         }
