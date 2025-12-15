@@ -37,8 +37,6 @@ This is the overall structure of the theme.
 
 ## Getting Started
 
-### GitHub NuGet Package Registry
-
 ### Theme Manifest &ndash; `theme.json`
 
 - `theme.json` defines the metadata of the theme.
