@@ -419,6 +419,6 @@ FodyWeavers.xsd
 
 # Repository specific
 .DS_Store
-ThemeTest/
+preview/**/dist/
 preview/**/preview/
 preview/**/themes/minimal-blog
