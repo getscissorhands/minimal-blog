@@ -2,27 +2,23 @@
 @layout MainLayout
 
 <section class="post">
-    <header>
-        <div>
-            @Document.Metadata.Title
+    @if (!string.IsNullOrWhiteSpace(Document.Metadata.HeroImage))
+    {
+        <div class="post hero-image">
+            <img src="@Document.Metadata.HeroImage" alt="@Document.Metadata.Title" />
         </div>
-        @if (Document.Metadata.Published is { } published)
-        {
-            <div>
-                @published.ToString("MMMM dd, yyyy")
-            </div>
-        }
-        @if (Document.Metadata.Tags.Any())
-        {
-            <ul>
-                @foreach (var tag in Document.Metadata.Tags)
-                {
-                    <li>@tag</li>
-                }
-            </ul>
-        }
+    }
+    <header class="post header">
+        <p class="post meta">
+            @if (Document.Metadata.Published is { } published)
+            {
+                <span>@published.ToString("MMMM dd, yyyy")</span>
+            }
+        </p>
+        <h1 class="post title">@Document.Metadata.Title</h1>
+        <TagList Tags="@Document.Metadata.Tags" CssClass="post tags" />
     </header>
-    <article>
+    <article class="post body">
         @((MarkupString)Document.Html)
     </article>
 </section>

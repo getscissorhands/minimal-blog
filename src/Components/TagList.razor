@@ -1,0 +1,19 @@
+@namespace ScissorHands.Theme.MinimalBlog.Components.TagList
+
+@if (Tags.Any())
+{
+    <ul class="@CssClass">
+        @foreach (var tag in Tags)
+        {
+            <li>@tag</li>
+        }
+    </ul>
+}
+
+@code {
+    [Parameter]
+    public IEnumerable<string> Tags { get; set; } = [];
+
+    [Parameter]
+    public string CssClass { get; set; } = string.Empty;
+}

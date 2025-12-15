@@ -1,1 +1,431 @@
-/* Any CSS specific to the theme can be added here */
+/* Minimal Blog Theme - Light and Dark Mode Support */
+
+/* Light mode colors (default) */
+:root {
+    --bg: #f7f7f7;
+    --text: #222;
+    --muted: #666;
+    --accent: #ef4444;
+    --accent-hover: #dc2626;
+    --card: #fff;
+    --border: #e5e5e5;
+    --header-bg: #fff;
+    --max-width: 800px;
+    --radius: 12px;
+    --shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* Dark mode colors */
+:root.dark {
+    --bg: #0b1221;
+    --text: #e0e7ff;
+    --muted: #94a3b8;
+    --accent: #ef4444;
+    --accent-hover: #dc2626;
+    --card: #1e293b;
+    --border: #334155;
+    --header-bg: #1e293b;
+    --shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Header Styles */
+.site-header {
+    background: var(--header-bg);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.site-header .inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.site-title {
+    text-decoration: none;
+    color: inherit;
+}
+
+.site-title h1 {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin: 0;
+    color: var(--accent);
+    transition: color 0.2s ease;
+}
+
+.site-title:hover h1 {
+    color: var(--accent-hover);
+}
+
+/* Header Actions Container */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Dark Mode Toggle */
+.dark-mode-toggle, .dark-mode-toggle-github {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text);
+    transition: opacity 0.2s ease;
+}
+
+.dark-mode-toggle:hover, .dark-mode-toggle-github:hover {
+    opacity: 0.7;
+}
+
+.dark-mode-toggle svg, .dark-mode-toggle-github svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Main Content */
+.site-main {
+    max-width: var(--max-width);
+    margin: 32px auto;
+    padding: 0 20px 48px;
+}
+
+/* Home Page Styles */
+.home .hero {
+    margin-bottom: 32px;
+}
+
+.home .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin: 0 0 8px;
+    font-size: 0.85rem;
+}
+
+.home .title {
+    margin: 0 0 12px;
+    font-size: 2.2rem;
+    color: var(--text);
+}
+
+.home .subtitle {
+    margin: 0;
+    color: var(--muted);
+    font-size: 1.1rem;
+}
+
+.home .list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+/* Post Card Styles */
+.home .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.home .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 32px rgba(0,0,0,0.12);
+}
+
+.home .link {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+}
+
+.home .card-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+}
+
+.home .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.home .card:hover .card-image img {
+    transform: scale(1.05);
+}
+
+.home .card-content {
+    display: block;
+    padding: 18px;
+}
+
+.home .card-meta {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+.home .card-title {
+    margin: 4px 0 12px;
+    font-size: 1.3rem;
+    color: var(--text);
+}
+
+.home .card-desc {
+    margin: 0 0 12px;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.home .card-tags {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.home .card-tags li {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--accent);
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+}
+
+/* Post and Page Styles */
+.post, .page {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.post .hero-image, .page .hero-image {
+    aspect-ratio: 21 / 9;
+    border-radius: var(--radius) var(--radius) 0 0;
+    border: 0;
+    box-shadow: none;
+}
+
+.post .hero-image img, .page .hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.post .header, .page .header {
+    padding: 28px 28px 16px 28px;
+    border: 0;
+    border-radius: 0;
+}
+
+.post .meta {
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+    border: 0;
+    box-shadow: none;
+}
+
+.post .title, .page .title {
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    font-size: 2rem;
+    line-height: 1.2;
+    color: var(--text);
+    border: 0;
+    box-shadow: none;
+}
+
+.post .tags {
+    list-style: none;
+    margin: 0;
+    padding-top: 10px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    border: 0;
+    box-shadow: none;
+}
+
+.post .tags li {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--accent);
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+}
+
+.post .body, .page .body {
+    margin: 0;
+    padding: 28px;
+    line-height: 1.7;
+    border: 0;
+    border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.post .body img, .page .body img {
+    max-width: 100%;
+    border-radius: 8px 8px 0 0;
+    margin: 16px 0;
+}
+
+.post .body h1, .page .body h1,
+.post .body h2, .page .body h2,
+.post .body h3, .page .body h3 {
+    margin-top: 32px;
+    margin-bottom: 16px;
+    color: var(--text);
+}
+
+.post .body p, .page .body p {
+    margin: 16px 0;
+}
+
+.post .body a, .page .body a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.post .body a:hover, .page .body a:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+}
+
+.post .body pre, .page .body pre {
+    background: #0b1221;
+    color: #e0e7ff;
+    padding: 16px;
+    border-radius: 10px;
+    overflow-x: auto;
+    font-size: 0.95rem;
+    margin: 16px 0;
+}
+
+.post .body code, .page .body code {
+    background: rgba(0,0,0,0.05);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.9em;
+}
+
+:root.dark .post .body code,
+:root.dark .page .body code {
+    background: rgba(255,255,255,0.1);
+}
+
+.post .body pre code, .page .body pre code {
+    background: none;
+    padding: 0;
+}
+
+.post .body ul, .page .body ul,
+.post .body ol, .page .body ol {
+    margin: 16px 0;
+    padding-left: 24px;
+}
+
+.post .body blockquote, .page .body blockquote {
+    margin: 16px 0;
+    padding-left: 16px;
+    border-left: 4px solid var(--accent);
+    color: var(--muted);
+    font-style: italic;
+}
+
+/* Footer Styles */
+.site-footer {
+    max-width: var(--max-width);
+    margin: 0 auto 40px;
+    padding: 0 20px;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.site-footer .inner {
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 16px;
+}
+
+.footer-links a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: var(--accent);
+}
+
+.site-footer p {
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+    .home .title {
+        font-size: 1.8rem;
+    }
+
+    .post .title, .page .title {
+        font-size: 1.6rem;
+    }
+
+    .home .list {
+        grid-template-columns: 1fr;
+    }
+
+    .site-footer .inner {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+

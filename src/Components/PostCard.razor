@@ -1,0 +1,57 @@
+@namespace ScissorHands.Theme.MinimalBlog.Components.PostCard
+
+<article class="home card">
+    @if (!string.IsNullOrWhiteSpace(Post.Metadata.HeroImage))
+    {
+        <div class="home card-image">
+            <a href="/@Post.Metadata.Slug/"><img src="@Post.Metadata.HeroImage" alt="@Post.Metadata.Title" loading="lazy" /></a>
+        </div>
+    }
+    <div class="home card-content">
+        <div class="home card-meta">
+            @if (Post.Metadata.Published is { } published)
+            {
+                <span>@published.ToString("MMMM dd, yyyy")</span>
+            }
+        </div>
+        <a class="home link" href="/@Post.Metadata.Slug/">
+            <h2 class="home card-title">@Post.Metadata.Title</h2>
+            @if (!string.IsNullOrWhiteSpace(Post.Metadata.Description))
+            {
+                <p class="home card-desc">@GetTruncatedDescription()</p>
+            }
+        </a>
+        @if (Post.Metadata.Tags.Any())
+        {
+            <ul class="home card-tags">
+                @foreach (var tag in Post.Metadata.Tags)
+                {
+                    <li>@tag</li>
+                }
+            </ul>
+        }
+    </div>
+</article>
+
+@code {
+    [Parameter]
+    public ContentDocument Post { get; set; } = new();
+
+    [Parameter]
+    public int MaxDescriptionLength { get; set; } = 150;
+
+    private string GetTruncatedDescription()
+    {
+        if (string.IsNullOrWhiteSpace(Post.Metadata.Description))
+        {
+            return string.Empty;
+        }
+
+        if (Post.Metadata.Description.Length <= MaxDescriptionLength)
+        {
+            return Post.Metadata.Description;
+        }
+
+        return $"{Post.Metadata.Description.Substring(0, MaxDescriptionLength)}...";
+    }
+}
