@@ -1,0 +1,21 @@
+@namespace ScissorHands.Theme.MinimalBlog.Components.Header
+
+<header class="site-header">
+    <div class="site-header inner">
+        <a href="/" class="site-title">
+            <h1>@((MarkupString)Site!.Title)</h1>
+        </a>
+        <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
+            <img src="@($"/themes/{Theme!.Slug.TrimEnd('/')}/assets/images/sun-icon.svg")" alt="Light mode" class="sun-icon" width="24" height="24" />
+            <img src="@($"/themes/{Theme!.Slug.TrimEnd('/')}/assets/images/moon-icon.svg")" alt="Dark mode" class="moon-icon" width="24" height="24" style="display: none;" />
+        </button>
+    </div>
+</header>
+
+@code {
+    [Parameter]
+    public SiteManifest Site { get; set; } = new();
+
+    [Parameter]
+    public ThemeManifest Theme { get; set; } = new();
+}

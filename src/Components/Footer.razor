@@ -1,0 +1,15 @@
+@namespace ScissorHands.Theme.MinimalBlog.Components.Footer
+
+<footer class="site-footer">
+    <div class="site-footer inner">
+        <div class="footer-links">
+            <a href="/about">About</a>
+        </div>
+        <p>&copy; @DateTimeOffset.UtcNow.Year @((MarkupString)Site!.Title)</p>
+    </div>
+</footer>
+
+@code {
+    [Parameter]
+    public SiteManifest Site { get; set; } = new();
+}

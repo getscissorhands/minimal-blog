@@ -2,12 +2,16 @@
 @layout MainLayout
 
 <section class="page">
-    <header>
-        <div>
-            @Document.Metadata.Title
+    @if (!string.IsNullOrWhiteSpace(Document.Metadata.HeroImage))
+    {
+        <div class="page hero-image">
+            <img src="@Document.Metadata.HeroImage" alt="@Document.Metadata.Title" />
         </div>
+    }
+    <header class="page header">
+        <h1 class="page title">@Document.Metadata.Title</h1>
     </header>
-    <article>
+    <article class="page body">
         @((MarkupString)Document.Html)
     </article>
 </section>

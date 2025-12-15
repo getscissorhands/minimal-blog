@@ -1,1 +1,62 @@
-// Any JavaScript specific to the theme can be added here
+// Dark mode toggle functionality
+(function() {
+    'use strict';
+
+    // Initialize dark mode based on localStorage or system preference
+    function initDarkMode() {
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        if (!darkModeToggle) return;
+
+        const sunIcon = darkModeToggle.querySelector('.sun-icon');
+        const moonIcon = darkModeToggle.querySelector('.moon-icon');
+        
+        // Check for saved theme preference or default to system preference
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            document.documentElement.classList.add('dark');
+            if (sunIcon) sunIcon.style.display = 'none';
+            if (moonIcon) moonIcon.style.display = 'block';
+        } else {
+            document.documentElement.classList.remove('dark');
+            if (sunIcon) sunIcon.style.display = 'block';
+            if (moonIcon) moonIcon.style.display = 'none';
+        }
+    }
+
+    // Toggle dark mode
+    function toggleDarkMode() {
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        if (!darkModeToggle) return;
+
+        const sunIcon = darkModeToggle.querySelector('.sun-icon');
+        const moonIcon = darkModeToggle.querySelector('.moon-icon');
+        const isDark = document.documentElement.classList.toggle('dark');
+        
+        if (isDark) {
+            localStorage.setItem('theme', 'dark');
+            if (sunIcon) sunIcon.style.display = 'none';
+            if (moonIcon) moonIcon.style.display = 'block';
+        } else {
+            localStorage.setItem('theme', 'light');
+            if (sunIcon) sunIcon.style.display = 'block';
+            if (moonIcon) moonIcon.style.display = 'none';
+        }
+    }
+
+    // Initialize on page load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initDarkMode);
+    } else {
+        initDarkMode();
+    }
+
+    // Add click event listener
+    window.addEventListener('load', function() {
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+        }
+    });
+})();
