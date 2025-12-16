@@ -58,6 +58,10 @@ This is the overall structure of the theme.
 
   You can have one or more CSS and JavaScript files. If you choose to do so, make sure to include them all in this `theme.json`.
 
+### Integrated Plugins
+
+- [Google Analytics](https://github.com/getscissorhands/plugins/tree/main/src/ScissorHands.Plugin.GoogleAnalytics)
+
 ### Layout Components
 
 #### `_Imports.razor` Global Component

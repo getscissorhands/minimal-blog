@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ScissorHands.Plugin.GoogleAnalytics" Version="1.*-*" />
     <PackageReference Include="ScissorHands.Web" Version="1.*-*" />
   </ItemGroup>
 

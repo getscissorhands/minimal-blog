@@ -18,6 +18,7 @@ on:
 #   cancel-in-progress: true
 
 env:
+  GA_MEASUREMENT_ID: '${{ secrets.GA_MEASUREMENT_ID }}'
   GH_PACKAGE_USERNAME: '${{ secrets.GH_PACKAGE_USERNAME }}'
   GH_PACKAGE_TOKEN: '${{ secrets.GH_PACKAGE_TOKEN }}'
 
@@ -51,6 +52,20 @@ jobs:
       shell: bash
       run: |
         ln -s $GITHUB_WORKSPACE/src $GITHUB_WORKSPACE/preview/ScissorHands/themes/minimal-blog
+  
+    - name: Update Google Analytics ID
+      shell: pwsh
+      run: |
+        $appSettings = Get-Content -Path ./preview/ScissorHands/appsettings.json | ConvertFrom-Json
+        $plugins = $appSettings.Plugins
+        $plugins | ForEach-Object {
+          $plugin = $_
+          if ($plugin.Name -eq "Google Analytics") {
+            $plugin.Options.MeasurementId = "${{ env.GA_MEASUREMENT_ID }}"
+          }
+        }
+        $appSettings.Plugins = $plugins
+        $appSettings | ConvertTo-Json -Depth 100 | Set-Content -Path ./preview/ScissorHands/appsettings.json
 
     - name: Restore NuGet packages
       shell: pwsh

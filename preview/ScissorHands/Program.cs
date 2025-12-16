@@ -3,5 +3,5 @@ using ScissorHands.Web;
 
 var app = await new ScissorHandsApplication<MainLayout, IndexView, PostView, PageView>(args)
                     .VerifyCommandArguments()
-                    .InitializeAsync();
+                    .BuildAsync();
 await app.RunAsync();
