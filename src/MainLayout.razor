@@ -13,8 +13,8 @@
     <link rel="icon" type="image/x-icon" href="@($"/themes/{Theme!.Slug.TrimEnd('/')}/favicon.ico")" />
     <meta name="generator" content="@Site!.Generator" />
 
-    <title>@((MarkupString)Site!.Title)</title>
-    <meta name="title" content="@Site!.Title" />
+    <title>@SiteTitle</title>
+    <meta name="title" content="@Site.Title" />
     <meta name="description" content="@Site!.Description" />
 
     <OpenGraphComponent Documents="@Documents" Document="@Document" Plugin="@OpenGraphPlugin" Theme="@Theme" Site="@Site" />
