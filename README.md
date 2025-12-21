@@ -61,6 +61,7 @@ This is the overall structure of the theme.
 ### Integrated Plugins
 
 - [Google Analytics](https://github.com/getscissorhands/plugins/tree/main/src/ScissorHands.Plugin.GoogleAnalytics)
+- [Open Graph](https://github.com/getscissorhands/plugins/tree/main/src/ScissorHands.Plugin.OpenGraph)
 
 ### Layout Components
 
@@ -71,6 +72,8 @@ This is the overall structure of the theme.
     ```razor
     @using ScissorHands.Core.Manifests
     @using ScissorHands.Core.Models
+    @using ScissorHands.Plugin.GoogleAnalytics
+    @using ScissorHands.Plugin.OpenGraph
     @using ScissorHands.Theme.MinimalBlog.Components.Footer
     @using ScissorHands.Theme.MinimalBlog.Components.Header
     @using ScissorHands.Theme.MinimalBlog.Components.PostCard

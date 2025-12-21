@@ -1,9 +1,10 @@
 @inherits ScissorHands.Theme.MainLayoutBase
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="@Site!.Locale">
 <head>
-    <plugin:google-analytics />
+    <GoogleAnalyticsComponent Documents="@Documents" Document="@Document" Plugin="@GoogleAnalyticsPlugin" Theme="@Theme" Site="@Site" />
+    @* <plugin:google-analytics /> *@
 
     <base href="@Site!.BaseUrl" />
 
@@ -13,8 +14,12 @@
     <meta name="generator" content="@Site!.Generator" />
 
     <title>@((MarkupString)Site!.Title)</title>
-    <meta name="title" content="@((MarkupString)Site!.Title)" />
-    <meta name="description" content="@((MarkupString)Site!.Description)" />
+    <meta name="title" content="@Site!.Title" />
+    <meta name="description" content="@Site!.Description" />
+
+    <OpenGraphComponent Documents="@Documents" Document="@Document" Plugin="@OpenGraphPlugin" Theme="@Theme" Site="@Site" />
+    @* <plugin:open-graph /> *@
+
     @if (Theme!.Stylesheets is not null)
     {
         foreach (var css in Theme!.Stylesheets)
@@ -41,3 +46,24 @@
     }
 </body>
 </html>
+
+@code {
+    /// <summary>
+    /// Gets or sets the <see cref="PluginManifest"/> instance for Google Analytics.
+    /// </summary>
+    protected PluginManifest? GoogleAnalyticsPlugin { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="PluginManifest"/> instance for Open Graph.
+    /// </summary>
+    protected PluginManifest? OpenGraphPlugin { get; set; }
+
+    /// <inheritdoc />
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        GoogleAnalyticsPlugin = Plugins?.SingleOrDefault(p => p.Name!.Equals("Google Analytics", StringComparison.OrdinalIgnoreCase));
+        OpenGraphPlugin = Plugins?.SingleOrDefault(p => p.Name!.Equals("Open Graph", StringComparison.OrdinalIgnoreCase));
+    }
+}

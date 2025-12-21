@@ -3,7 +3,7 @@ title: Hello, world
 slug: hello-world
 description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 author: The ScissorHands
-hero: /images/hello-world.png
+hero_image: /images/hello-world.png
 published: 2025-12-15
 tags:
   - blazor
