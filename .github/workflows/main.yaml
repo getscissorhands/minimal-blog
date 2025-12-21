@@ -52,7 +52,14 @@ jobs:
       shell: bash
       run: |
         ln -s $GITHUB_WORKSPACE/src $GITHUB_WORKSPACE/preview/ScissorHands/themes/minimal-blog
-  
+
+    - name: Update Theme Version
+      shell: pwsh
+      run: |
+        $theme = Get-Content -Path ./src/theme.json | ConvertFrom-Json
+        $theme.version = "${{ steps.version.outputs.value }}"
+        $theme | ConvertTo-Json -Depth 100 | Set-Content -Path ./src/theme.json -Force
+
     - name: Update Google Analytics ID
       shell: pwsh
       run: |
