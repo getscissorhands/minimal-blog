@@ -1,36 +1,45 @@
 @namespace ScissorHands.Theme.MinimalBlog.Components.PostCard
 
 <article class="home card">
-    @if (!string.IsNullOrWhiteSpace(Post.Metadata.HeroImage))
+    @if (IsEmpty == true)
     {
-        <div class="home card-image">
-            <a href="/@Post.Metadata.Slug/"><img src="@Post.Metadata.HeroImage" alt="@Post.Metadata.Title" loading="lazy" /></a>
+        <div class="home card-content">
+            <p class="home card-desc">No posts found.</p>
         </div>
     }
-    <div class="home card-content">
-        <div class="home card-meta">
-            @if (Post.Metadata.Published is { } published)
+    else
+    {
+        @if (!string.IsNullOrWhiteSpace(Post.Metadata.HeroImage))
+        {
+            <div class="home card-image">
+                <a href="/@Post.Metadata.Slug/"><img src="@Post.Metadata.HeroImage" alt="@Post.Metadata.Title" loading="lazy" /></a>
+            </div>
+        }
+        <div class="home card-content">
+            <div class="home card-meta">
+                @if (Post.Metadata.Published is { } published)
+                {
+                    <span>@published.ToString("MMMM dd, yyyy")</span>
+                }
+            </div>
+            <a class="home link" href="/@Post.Metadata.Slug/">
+                <h2 class="home card-title">@Post.Metadata.Title</h2>
+                @if (!string.IsNullOrWhiteSpace(Post.Metadata.Description))
+                {
+                    <p class="home card-desc">@GetTruncatedDescription()</p>
+                }
+            </a>
+            @if (Post.Metadata.Tags.Any())
             {
-                <span>@published.ToString("MMMM dd, yyyy")</span>
+                <ul class="home card-tags">
+                    @foreach (var tag in Post.Metadata.Tags)
+                    {
+                        <li>@tag</li>
+                    }
+                </ul>
             }
         </div>
-        <a class="home link" href="/@Post.Metadata.Slug/">
-            <h2 class="home card-title">@Post.Metadata.Title</h2>
-            @if (!string.IsNullOrWhiteSpace(Post.Metadata.Description))
-            {
-                <p class="home card-desc">@GetTruncatedDescription()</p>
-            }
-        </a>
-        @if (Post.Metadata.Tags.Any())
-        {
-            <ul class="home card-tags">
-                @foreach (var tag in Post.Metadata.Tags)
-                {
-                    <li>@tag</li>
-                }
-            </ul>
-        }
-    </div>
+    }
 </article>
 
 @code {
@@ -39,6 +48,9 @@
 
     [Parameter]
     public int MaxDescriptionLength { get; set; } = 150;
+
+    [Parameter]
+    public bool IsEmpty { get; set; }
 
     private string GetTruncatedDescription()
     {

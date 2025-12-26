@@ -8,6 +8,10 @@
         <p class="home subtitle">@((MarkupString)Site!.DescriptionInHtml!)</p>
     </header>
     <div class="home list">
+        @if (Documents.Any() == false)
+        {
+            <PostCard IsEmpty="true" />
+        }
         @foreach (var post in Documents)
         {
             <PostCard Post="@post" MaxDescriptionLength="150" />
