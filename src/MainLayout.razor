@@ -13,9 +13,9 @@
     <link rel="icon" type="image/x-icon" href="@($"/themes/{Theme!.Slug.TrimEnd('/')}/favicon.ico")" />
     <meta name="generator" content="@Site!.Generator" />
 
-    <title>@SiteTitle</title>
-    <meta name="title" content="@SiteTitle" />
-    <meta name="description" content="@Site!.Description" />
+    <title>@PageTitle</title>
+    <meta name="title" content="@PageTitle" />
+    <meta name="description" content="@PageDescription" />
 
     <OpenGraphComponent Documents="@Documents" Document="@Document" Plugin="@OpenGraphPlugin" Theme="@Theme" Site="@Site" />
     @* <plugin:open-graph /> *@
