@@ -2,7 +2,7 @@
 @layout MainLayout
 
 <section class="post">
-    @if (!string.IsNullOrWhiteSpace(Document.Metadata.HeroImage))
+    @if (string.IsNullOrWhiteSpace(Document?.Metadata.HeroImage) == false)
     {
         <div class="post hero-image">
             <img src="@Document.Metadata.HeroImage" alt="@Document.Metadata.Title" />
@@ -10,15 +10,15 @@
     }
     <header class="post header">
         <p class="post meta">
-            @if (Document.Metadata.Published is { } published)
+            @if (Document?.Metadata.Published is { } published)
             {
                 <span>@published.ToString("MMMM dd, yyyy")</span>
             }
         </p>
-        <h1 class="post title">@Document.Metadata.Title</h1>
-        <TagList Tags="@Document.Metadata.Tags" CssClass="post tags" />
+        <h1 class="post title">@Document?.Metadata.Title</h1>
+        <TagList Tags="@Document?.Metadata.Tags" CssClass="post tags" />
     </header>
     <article class="post body">
-        @((MarkupString)Document.Html)
+        @((MarkupString)Document?.Html!)
     </article>
 </section>

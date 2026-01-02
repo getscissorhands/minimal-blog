@@ -43,12 +43,21 @@
 </article>
 
 @code {
+    /// <summary>
+    /// Gets or sets the <see cref="ContentDocument"/> instance.
+    /// </summary>
     [Parameter]
     public ContentDocument Post { get; set; } = new();
 
+    /// <summary>
+    /// Gets or sets the maximum length of the description to display.
+    /// </summary>
     [Parameter]
     public int MaxDescriptionLength { get; set; } = 150;
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the post card is for the empty content.
+    /// </summary>
     [Parameter]
     public bool IsEmpty { get; set; }
 

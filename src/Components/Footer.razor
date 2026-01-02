@@ -3,13 +3,37 @@
 <footer class="site-footer">
     <div class="site-footer inner">
         <div class="footer-links">
-            <a href="/about">About</a>
+            <a href="@LocalePrefix/about">About</a>
         </div>
         <p>&copy; @DateTimeOffset.UtcNow.Year @((MarkupString)Site!.Title)</p>
     </div>
 </footer>
 
 @code {
+    /// <summary>
+    /// Gets or sets the locale prefix for URLs.
+    /// </summary>
+    protected string? LocalePrefix { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="SiteManifest"/> instance.
+    /// </summary>
+    [CascadingParameter]
+    public SiteManifest? Site { get; set; }
+
+    /// <summary>
+    /// Gets or sets the page locale.
+    /// </summary>
     [Parameter]
-    public SiteManifest Site { get; set; } = new();
+    public string? PageLocale { get; set; }
+
+    /// <inheritdoc />
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        LocalePrefix = Site?.UseLocaleInUrl == true && string.IsNullOrWhiteSpace(PageLocale) == false
+                     ? $"/{PageLocale}"
+                     : string.Empty;
+    }
 }

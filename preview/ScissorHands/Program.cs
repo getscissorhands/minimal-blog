@@ -2,10 +2,11 @@
 using IndexView = ScissorHands.Theme.MinimalBlog.IndexView;
 using PostView = ScissorHands.Theme.MinimalBlog.PostView;
 using PageView = ScissorHands.Theme.MinimalBlog.PageView;
+using NotFoundView = ScissorHands.Theme.MinimalBlog.NotFoundView;
 
 using ScissorHands.Web;
 
-var app = await new ScissorHandsApplication<MainLayout, IndexView, PostView, PageView>(args)
-                    .VerifyCommandArguments()
-                    .BuildAsync();
+var app = new ScissorHandsApplicationBuilder(args)
+              .AddLayouts<MainLayout, IndexView, PostView, PageView, NotFoundView>()
+              .Build();
 await app.RunAsync();
