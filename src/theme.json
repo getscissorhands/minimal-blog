@@ -4,9 +4,9 @@
   "description": "A minimal blog theme using Tailwind CSS for ScissorHands.NET, inspired by [astro-minimal-blog](https://github.com/alexanderhodes/astro-minimal-blog).",
   "slug": "minimal-blog",
   "stylesheets": [
-    "/assets/css/theme.css"
+    "assets/css/theme.css"
   ],
   "scripts": [
-    "/assets/js/theme.js"
+    "assets/js/theme.js"
   ]
 }

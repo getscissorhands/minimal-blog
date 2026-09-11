@@ -32,7 +32,8 @@ This is the overall structure of the theme.
     ├── MainLayout.razor
     ├── IndexView.razor
     ├── PostView.razor
-    └── PageView.razor
+    ├── PageView.razor
+    └── NotFoundView.razor
 ```
 
 ## Getting Started
@@ -48,15 +49,36 @@ This is the overall structure of the theme.
       "description": "A minimal blog theme using Tailwind CSS for ScissorHands.NET, inspired by [astro-minimal-blog](https://github.com/alexanderhodes/astro-minimal-blog).",
       "slug": "minimal-blog",
       "stylesheets": [
-        "/assets/css/theme.css"
+        "assets/css/theme.css"
       ],
       "scripts": [
-        "/assets/js/theme.js"
+        "assets/js/theme.js"
       ]
     }
     ```
 
-  You can have one or more CSS and JavaScript files. If you choose to do so, make sure to include them all in this `theme.json`.
+  You can have one or more CSS and JavaScript files. If you choose to do so, make sure to include them all in this `theme.json`. The engine exposes these values as non-null, read-only collections; configure them in the manifest rather than modifying them at runtime.
+
+### Automatic Theme Discovery
+
+- Set `Site:Theme` to the theme slug:
+
+    ```json
+    {
+      "Site": {
+        "Theme": "minimal-blog"
+      }
+    }
+    ```
+
+- The engine normalizes the slug and component namespace by removing non-alphanumeric characters and comparing them case-insensitively. Therefore, `minimal-blog` resolves the `ScissorHands.Theme.MinimalBlog` namespace.
+- The namespace must contain exactly one concrete component derived from each required base type:
+  - `MainLayout` from `MainLayoutBase`
+  - `IndexView` from `IndexViewBase`
+  - `PostView` from `PostViewBase`
+  - `PageView` from `PageViewBase`
+  - `NotFoundView` from `NotFoundViewBase`
+- Tag components derived from `TagListViewBase` and `TagViewBase` are optional. When they are absent, the engine uses its built-in tag views.
 
 ### Integrated Plugins
 
@@ -78,9 +100,7 @@ This is the overall structure of the theme.
     @using ScissorHands.Theme.MinimalBlog.Components.Header
     @using ScissorHands.Theme.MinimalBlog.Components.PostCard
     @using ScissorHands.Theme.MinimalBlog.Components.TagList
-    
-    @using Theme = ScissorHands.Core.Manifests.ThemeManifest
-    
+
     @namespace ScissorHands.Theme.MinimalBlog
     ```
 
@@ -121,6 +141,10 @@ This is the overall structure of the theme.
 #### `PageView.razor` Page Component
 
 - This is the non-blog post page.
+
+#### `NotFoundView.razor` Page Component
+
+- This is the fallback page for content that cannot be found.
 
 ### UI Components
 

@@ -12,7 +12,7 @@
         @if (!string.IsNullOrWhiteSpace(Post.Metadata.HeroImage))
         {
             <div class="home card-image">
-                <a href="/@Post.Metadata.Slug/"><img src="@Post.Metadata.HeroImage" alt="@Post.Metadata.Title" loading="lazy" /></a>
+                <a href="@($"{Post.Metadata.Slug}/")"><img src="@GetBaseRelativeUrl(Post.Metadata.HeroImage)" alt="@Post.Metadata.Title" loading="lazy" /></a>
             </div>
         }
         <div class="home card-content">
@@ -22,7 +22,7 @@
                     <span>@published.ToString("MMMM dd, yyyy")</span>
                 }
             </div>
-            <a class="home link" href="/@Post.Metadata.Slug/">
+            <a class="home link" href="@($"{Post.Metadata.Slug}/")">
                 <h2 class="home card-title">@Post.Metadata.Title</h2>
                 @if (!string.IsNullOrWhiteSpace(Post.Metadata.Description))
                 {
@@ -74,5 +74,16 @@
         }
 
         return $"{Post.Metadata.Description.Substring(0, MaxDescriptionLength)}...";
+    }
+
+    private static string GetBaseRelativeUrl(string url)
+    {
+        return IsExternalUrl(url) ? url : url.TrimStart('/');
+    }
+
+    private static bool IsExternalUrl(string url)
+    {
+        return url.StartsWith("//", StringComparison.Ordinal)
+            || Uri.TryCreate(url, UriKind.Absolute, out var uri) && !uri.IsFile;
     }
 }

@@ -2,13 +2,13 @@
 
 <header class="site-header">
     <div class="site-header inner">
-        <a href="/" class="site-title">
+        <a href="./" class="site-title">
             <h1>@((MarkupString)Site!.Title)</h1>
         </a>
         <div class="header-actions">
             <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
-                <img src="@($"/themes/{Theme!.Slug.TrimEnd('/')}/assets/images/sun-icon.svg")" alt="Light mode" class="sun-icon" width="24" height="24" />
-                <img src="@($"/themes/{Theme!.Slug.TrimEnd('/')}/assets/images/moon-icon.svg")" alt="Dark mode" class="moon-icon" width="24" height="24" style="display: none;" />
+                <img src="@($"themes/{Theme!.Slug.Trim('/')}/assets/images/sun-icon.svg")" alt="Light mode" class="sun-icon" width="24" height="24" />
+                <img src="@($"themes/{Theme!.Slug.Trim('/')}/assets/images/moon-icon.svg")" alt="Dark mode" class="moon-icon" width="24" height="24" style="display: none;" />
             </button>
             <div class="dark-mode-toggle-github">
                 <a href="https://github.com/getscissorhands/minimal-blog" target="_blank"><img src="https://cdn.simpleicons.org/github/181717" alt="GitHub light mode" class="sun-icon-github" width="24" height="24" /></a>
