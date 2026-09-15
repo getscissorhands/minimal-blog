@@ -76,9 +76,10 @@ as `v1.2.3` or `v1.2.3-preview.1`. The workflow extracts the version from the ta
 without enforcing full SemVer syntax or setting GitHub's prerelease flag.
 Version suffixes and build metadata such as `v1.2.3+build.42` are preserved.
 
-Releases use the pushed tag, attach the packaged theme archive, generate the
-sample site, and deploy the demo to GitHub Pages. The workflow does not publish
-NuGet packages.
+The release job checks the version from the pushed tag and uses its output to
+set the GitHub release tag explicitly. Releases attach the packaged theme
+archive, generate the sample site, and deploy the demo to GitHub Pages. The
+workflow does not publish NuGet packages.
 
 Branch pushes, updates to existing tags, pull requests, and manual workflow runs
 only build the solution and do not create releases.
