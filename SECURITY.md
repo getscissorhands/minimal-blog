@@ -6,7 +6,7 @@ This policy covers the Minimal Blog theme in this repository.
 
 Please do **not** open a public GitHub issue for security vulnerabilities.
 
-Email **[ask@getscissorhands.app](mailto:ask@getscissorhands.app)** privately.
+Email **ask (at) getscissorhands (dot) app** privately.
 
 Include the following in your report:
 

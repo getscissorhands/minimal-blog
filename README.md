@@ -1,139 +1,49 @@
 # Minimal Blog Theme
 
-A minimal, responsive blog theme for ScissorHands.NET, inspired by
-[astro-minimal-blog](https://github.com/alexanderhodes/astro-minimal-blog).
-The theme uses Razor components, framework-free CSS, and plain JavaScript.
+A minimal, responsive blog theme for [ScissorHands.NET](https://getscissorhands.app/), inspired by [astro-minimal-blog](https://github.com/alexanderhodes/astro-minimal-blog). It uses Razor components, framework-free CSS, and plain JavaScript.
 
-See the [ScissorHands.NET theme documentation](https://getscissorhands.app/docs/themes/)
-for engine configuration and component APIs.
+[View the demo](https://getscissorhands.app/minimal-blog/) or read the [theme documentation](https://getscissorhands.app/docs/themes/).
 
-## Prerequisites
+## Requirements
 
-- [.NET 10+ SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
-- [Visual Studio 2026](https://visualstudio.microsoft.com/) or
-  [VS Code](https://code.visualstudio.com/) with
-  [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
+- [Visual Studio 2026](https://visualstudio.microsoft.com/) or [Visual Studio Code](https://code.visualstudio.com/) with the [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
 
-## Repository Layout
-
-```text
-.
-├── src/
-│   ├── assets/
-│   │   ├── css/theme.css
-│   │   ├── images/
-│   │   └── js/theme.js
-│   ├── Components/
-│   ├── favicon.ico
-│   ├── theme.json
-│   ├── MinimalBlog.csproj
-│   ├── MainLayout.razor
-│   ├── IndexView.razor
-│   ├── PostView.razor
-│   ├── PageView.razor
-│   ├── NotFoundView.razor
-│   ├── TagListView.razor
-│   └── TagView.razor
-├── sample/
-│   ├── contents/
-│   ├── appsettings.json
-│   ├── Program.cs
-│   └── sample.csproj
-├── Directory.Build.props
-├── Directory.Packages.props
-└── MinimalBlog.slnx
-```
-
-## Packages
-
-The repository restores ScissorHands packages from NuGet.org. Package versions
-are centralized in `Directory.Packages.props` and use the `1.*-*` floating
-policy from the theme template so restore selects the latest 1.x release,
-including previews.
-
-The sample enables:
-
-- [Google Analytics](https://www.nuget.org/packages/ScissorHands.Plugin.GoogleAnalytics)
-- [Open Graph](https://www.nuget.org/packages/ScissorHands.Plugin.OpenGraph)
-
-## Theme Discovery
-
-`Site:Theme` is set to `minimal-blog`. The engine normalizes that slug and
-resolves the `ScissorHands.Theme.MinimalBlog` namespace.
-
-The namespace contains one concrete component for every theme role:
-
-- `MainLayout`
-- `IndexView`
-- `PostView`
-- `PageView`
-- `NotFoundView`
-- `TagListView`
-- `TagView`
-
-Startup uses automatic discovery:
-
-```csharp
-using ScissorHands.Web;
-
-var app = new ScissorHandsApplicationBuilder(args).Build();
-await app.RunAsync();
-```
-
-## Local Preview
-
-The repository includes the relative symbolic link
-`sample/themes/minimal-blog -> ../../src`.
-
-On Windows, enable Developer Mode and clone with symbolic-link support:
-
-```powershell
-git clone -c core.symlinks=true https://github.com/getscissorhands/minimal-blog.git
-```
-
-If an existing Windows checkout materialized the link as a plain text file,
-enable `core.symlinks`, remove that file, and check it out again.
+## Run locally
 
 Restore and build from the repository root:
 
-```bash
+```shell
 dotnet restore
 dotnet build --configuration Release --no-restore
 ```
 
-Run the preview from the sample directory:
+Run the preview:
 
-```bash
+```shell
 cd sample
 dotnet run -- --preview
 ```
 
-Generate static output with:
+Generate static output with `dotnet run -- --build` from `sample`. Output is written to `sample/preview` or `sample/dist`.
 
-```bash
-dotnet run -- --build
-```
+## Customize
 
-The generated files are written to `sample/preview` and `sample/dist`.
+- `src/theme.json`: theme metadata and asset declarations.
+- `src/*.razor`: layout, content, error, and tag views.
+- `src/Components/`: shared UI components.
+- `src/assets/`: theme CSS, JavaScript, and images.
+- `sample/appsettings.json`: local site and plugin configuration.
+- `sample/contents/`: preview posts, pages, and images.
 
-## Theme Manifest
+The sample enables the [Google Analytics](https://www.nuget.org/packages/ScissorHands.Plugin.GoogleAnalytics) and [Open Graph](https://www.nuget.org/packages/ScissorHands.Plugin.OpenGraph)
+plugins.
 
-`src/theme.json` defines the theme metadata and base-relative assets:
+ScissorHands packages versions are centralized in `Directory.Packages.props` and float within the latest 1.x release line, including previews.
 
-```json
-{
-  "name": "Minimal Blog",
-  "version": "1.0.0",
-  "description": "A minimal blog theme for ScissorHands.NET.",
-  "slug": "minimal-blog",
-  "stylesheets": [
-    "assets/css/theme.css"
-  ],
-  "scripts": [
-    "assets/js/theme.js"
-  ]
-}
-```
+## Project guidance
 
-Manifest collections are read-only at runtime. Declare stylesheets and scripts
-in the manifest rather than changing them while rendering.
+- [Contributing](CONTRIBUTING.md)
+- [Support](SUPPORT.md)
+- [Security policy](SECURITY.md)
+- [Changelog](CHANGELOG.md)
