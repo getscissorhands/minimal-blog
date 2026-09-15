@@ -1,167 +1,153 @@
-name: Build, Test and Publish
+name: Build, release, and deploy
 
 on:
-  workflow_dispatch:
   push:
     branches:
-    - main
-    - feat/*
-    - hotfix/*
+      - main
+      - "build/*"
+      - "chore/*"
+      - "ci/*"
+      - "docs/*"
+      - "feat/*"
+      - "fix/*"
+      - "perf/*"
+      - "refactor/*"
+      - "revert/*"
+      - "style/*"
+      - "test/*"
     tags:
-      - 'v*'
+      - "v*"
   pull_request:
     branches:
-    - main
+      - main
+  workflow_dispatch:
 
-# concurrency:
-#   group: "pages"
-#   cancel-in-progress: true
+permissions:
+  contents: read
 
 env:
-  GA_MEASUREMENT_ID: '${{ secrets.GA_MEASUREMENT_ID }}'
-  GH_PACKAGE_USERNAME: '${{ secrets.GH_PACKAGE_USERNAME }}'
-  GH_PACKAGE_TOKEN: '${{ secrets.GH_PACKAGE_TOKEN }}'
+  GA_MEASUREMENT_ID: ${{ secrets.GA_MEASUREMENT_ID }}
 
 jobs:
-  build_and_test:
-    name: Build and test packages
-
+  build:
+    name: Build theme and sample
     runs-on: ubuntu-latest
-
+    timeout-minutes: 15
     steps:
-    - name: Checkout the repository
-      uses: actions/checkout@v6
+      - name: Check out repository
+        uses: actions/checkout@v7
 
-    - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v5
-      with:
-        dotnet-version: '10.x'
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v6
 
-    - name: Check package version
-      id: version
-      shell: pwsh
-      run: |
-        $version = $env:GITHUB_REF -replace 'refs/tags/v', ''
-        if ($($env:GITHUB_REF).StartsWith('refs/tags/v') -eq $false) {
-          $version = "1.0.0"
-        }
-
-        "value=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-
-    - name: Add symlink
-      shell: bash
-      run: |
-        ln -s $GITHUB_WORKSPACE/src $GITHUB_WORKSPACE/preview/ScissorHands/themes/minimal-blog
-
-    - name: Update Theme Version
-      shell: pwsh
-      run: |
-        $theme = Get-Content -Path ./src/theme.json | ConvertFrom-Json
-        $theme.version = "${{ steps.version.outputs.value }}"
-        $theme | ConvertTo-Json -Depth 100 | Set-Content -Path ./src/theme.json -Force
-
-    - name: Update Google Analytics ID
-      shell: pwsh
-      run: |
-        $appSettings = Get-Content -Path ./preview/ScissorHands/appsettings.json | ConvertFrom-Json
-        $plugins = $appSettings.Plugins
-        $plugins | ForEach-Object {
-          $plugin = $_
-          if ($plugin.Name -eq "Google Analytics") {
-            $plugin.Options.MeasurementId = "${{ env.GA_MEASUREMENT_ID }}"
+      - name: Check release version
+        id: version
+        shell: pwsh
+        run: |
+          $version = $env:GITHUB_REF -replace '^refs/tags/v', ''
+          if (-not $env:GITHUB_REF.StartsWith('refs/tags/v')) {
+            $version = "1.0.0"
           }
-        }
-        $appSettings.Plugins = $plugins
-        $appSettings | ConvertTo-Json -Depth 100 | Set-Content -Path ./preview/ScissorHands/appsettings.json
+          "value=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
-    - name: Restore NuGet packages
-      shell: pwsh
-      run: |
-        dotnet restore
+      - name: Update release metadata
+        shell: pwsh
+        run: |
+          $theme = Get-Content -LiteralPath "src/theme.json" -Raw | ConvertFrom-Json
+          $theme.version = "${{ steps.version.outputs.value }}"
+          $theme | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath "src/theme.json"
 
-    - name: Build solution
-      shell: pwsh
-      run: |
-        dotnet build -c Release -p:Version=${{ steps.version.outputs.value }}
+          $settings = Get-Content -LiteralPath "sample/appsettings.json" -Raw | ConvertFrom-Json
+          foreach ($plugin in $settings.Plugins) {
+            if ($plugin.Id -eq "google-analytics" -and -not [string]::IsNullOrWhiteSpace($env:GA_MEASUREMENT_ID)) {
+              $plugin.Options.MeasurementId = $env:GA_MEASUREMENT_ID
+            }
+          }
+          if ($env:GITHUB_REF.StartsWith('refs/tags/v')) {
+            $settings.Site.BaseUrl = "/minimal-blog/"
+            $settings.Site.SiteUrl = "https://getscissorhands.app"
+          }
+          $settings | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath "sample/appsettings.json"
 
-    - name: Run unit tests
-      shell: pwsh
-      run: |
-        dotnet test -c Release --no-build --verbosity normal
+      - name: Restore packages from NuGet.org
+        run: dotnet restore
 
-    - name: Publish artifact for theme
-      if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-      shell: bash
-      run: |
-        mkdir -p ./published
+      - name: Build solution
+        run: dotnet build --configuration Release --no-restore
 
-        pushd ./src
-        zip -r ../published/minimal-blog-v${{ steps.version.outputs.value }}.zip .
-        popd
+      # Uncomment after adding test projects to the solution.
+      # - name: Test solution
+      #   run: dotnet test --configuration Release --no-build --no-restore
 
-    - name: Upload artifact for theme
-      if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-      uses: actions/upload-artifact@v6
-      with:
-        name: artifact
-        path: ./published
+      - name: Package theme
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        shell: bash
+        run: |
+          mkdir -p published
+          pushd src
+          zip -r ../published/minimal-blog-v${{ steps.version.outputs.value }}.zip . \
+            -x "bin/*" "obj/*"
+          popd
 
-    - name: Publish artifact for preview
-      if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-      shell: bash
-      run: |
-        dotnet run --project ./preview/ScissorHands -- --build
+      - name: Upload release artifact
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: release-artifact
+          path: published
 
-    - name: Upload artifact for preview
-      if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-      uses: actions/upload-pages-artifact@v4
-      with:
-        path: ./preview/ScissorHands/dist
+      - name: Generate sample site
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        shell: pwsh
+        run: |
+          Push-Location sample
+          try {
+            dotnet run --configuration Release --no-build -- --build
+          }
+          finally {
+            Pop-Location
+          }
 
-  publish_and_deploy:
-    name: Publish artifacts and deploy to GitHub Pages
-    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-    needs:
-    - build_and_test
+      - name: Upload Pages artifact
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: sample/dist
 
+  release:
+    name: Create GitHub release
+    if: ${{ github.event_name == 'push' && github.event.created && startsWith(github.ref, 'refs/tags/v') }}
+    needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - name: Download release artifact
+        uses: actions/download-artifact@v6
+        with:
+          name: release-artifact
+          path: published
 
+      - name: Create release
+        uses: softprops/action-gh-release@v3
+        with:
+          files: published/*.zip
+          generate_release_notes: true
+
+  deploy:
+    name: Deploy GitHub Pages
+    if: ${{ github.event_name == 'push' && github.event.created && startsWith(github.ref, 'refs/tags/v') }}
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     permissions:
-      contents: write
       pages: write
       id-token: write
-
     steps:
-    - name: Check package version
-      id: version
-      shell: pwsh
-      run: |
-        $version = $env:GITHUB_REF -replace 'refs/tags/v', ''
-        if ($($env:GITHUB_REF).StartsWith('refs/tags/v') -eq $false) {
-          $version = "1.0.0"
-        }
-
-        "value=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-
-    - name: Download Artifact
-      uses: actions/download-artifact@v6
-      with:
-        name: artifact
-        path: ./published
-
-    - name: Create Release to GitHub
-      uses: softprops/action-gh-release@v2
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        tag_name: "v${{ steps.version.outputs.value }}"
-        files: |
-          ./published/*.zip
-        generate_release_notes: true
-
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
+      - name: Deploy Pages artifact
+        id: deployment
+        uses: actions/deploy-pages@v4

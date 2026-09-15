@@ -1,36 +1,59 @@
 @inherits ScissorHands.Theme.MainLayoutBase
 
-<CascadingMainLayoutBase Documents="@Documents" Document="@Document" Plugins="@Plugins" Theme="@Theme" Site="@Site">
+<CascadingMainLayoutBase Documents="@Documents"
+                         TaggedDocuments="@TaggedDocuments"
+                         Tag="@Tag"
+                         TaggedPosts="@TaggedPosts"
+                         TaggedPages="@TaggedPages"
+                         Document="@Document"
+                         PageNavigation="@PageNavigation"
+                         Plugins="@Plugins"
+                         Theme="@Theme"
+                         Site="@Site">
 
 <!DOCTYPE html>
 <html lang="@PageLocale">
 <head>
-    <GoogleAnalyticsComponent Name="Google Analytics" />
+    <GoogleAnalyticsComponent Id="google-analytics" />
     @* <plugin:google-analytics /> *@
 
     <base href="@Site!.BaseUrl" />
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="@($"themes/{Theme!.Slug.Trim('/')}/favicon.ico")" />
+    <link rel="icon" type="image/x-icon" href="@GetThemeUrl("favicon.ico")" />
     <meta name="generator" content="@Site!.Generator" />
 
     <title>@PageTitle</title>
     <meta name="title" content="@PageTitle" />
     <meta name="description" content="@PageDescription" />
 
-    <OpenGraphComponent Name="Open Graph" />
+    <OpenGraphComponent Id="open-graph" />
     @* <plugin:open-graph /> *@
 
+    <script>
+        (() => {
+            try {
+                const preference = localStorage.getItem("scissorhands-theme-mode");
+                if (preference === "light" || preference === "dark") {
+                    document.documentElement.dataset.theme = preference;
+                }
+            } catch (error) {
+                if (!(error instanceof DOMException) || error.name !== "SecurityError") throw error;
+                console.warn("Colour preference storage is unavailable; using the system preference.", error);
+            }
+        })();
+    </script>
     @foreach (var css in Theme!.Stylesheets)
     {
-        <link rel="stylesheet" href="@($"themes/{Theme.Slug.Trim('/')}/{css.TrimStart('/')}")" />
+        <link rel="stylesheet" href="@GetThemeUrl(css)" />
     }
 </head>
 <body>
-    <Header />
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <Header NavigationTree="@NavigationTree" />
 
-    <main class="site-main">
+    <main id="main-content" class="site-main">
         @Body
     </main>
 
@@ -38,7 +61,7 @@
 
     @foreach (var script in Theme!.Scripts)
     {
-        <script src="@($"themes/{Theme.Slug.Trim('/')}/{script.TrimStart('/')}")"></script>
+        <script src="@GetThemeUrl(script)"></script>
     }
 </body>
 </html>

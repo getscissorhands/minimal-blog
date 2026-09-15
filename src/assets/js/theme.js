@@ -1,74 +1,143 @@
-// Dark mode toggle functionality
-(function() {
-    'use strict';
+const themeToggle = document.querySelector("[data-theme-toggle]");
 
-    // Initialize dark mode based on localStorage or system preference
-    function initDarkMode() {
-        const darkModeToggle = document.getElementById('dark-mode-toggle');
-        if (!darkModeToggle) return;
+if (themeToggle) {
+    const root = document.documentElement;
+    const systemTheme = window.matchMedia("(prefers-color-scheme: dark)");
+    let preference = root.dataset.theme ?? null;
 
-        const sunIconGH = document.querySelector('.sun-icon-github');
-        const moonIconGH = document.querySelector('.moon-icon-github');
-        const sunIcon = darkModeToggle.querySelector('.sun-icon');
-        const moonIcon = darkModeToggle.querySelector('.moon-icon');
-        
-        // Check for saved theme preference or default to system preference
-        const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        
-        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-            document.documentElement.classList.add('dark');
-            if (sunIconGH) sunIconGH.style.display = 'none';
-            if (moonIconGH) moonIconGH.style.display = 'block';
-            if (sunIcon) sunIcon.style.display = 'none';
-            if (moonIcon) moonIcon.style.display = 'block';
-        } else {
-            document.documentElement.classList.remove('dark');
-            if (sunIconGH) sunIconGH.style.display = 'block';
-            if (moonIconGH) moonIconGH.style.display = 'none';
-            if (sunIcon) sunIcon.style.display = 'block';
-            if (moonIcon) moonIcon.style.display = 'none';
-        }
-    }
+    const updateTheme = () => {
+        const theme = preference ?? (systemTheme.matches ? "dark" : "light");
+        const label = theme === "dark" ? "Switch to light mode" : "Switch to dark mode";
+        root.dataset.theme = theme;
+        themeToggle.setAttribute("aria-label", label);
+        themeToggle.title = label;
+    };
 
-    // Toggle dark mode
-    function toggleDarkMode() {
-        const darkModeToggle = document.getElementById('dark-mode-toggle');
-        if (!darkModeToggle) return;
+    themeToggle.addEventListener("click", () => {
+        preference = root.dataset.theme === "dark" ? "light" : "dark";
+        updateTheme();
 
-        const sunIconGH = document.querySelector('.sun-icon-github');
-        const moonIconGH = document.querySelector('.moon-icon-github');
-        const sunIcon = darkModeToggle.querySelector('.sun-icon');
-        const moonIcon = darkModeToggle.querySelector('.moon-icon');
-        const isDark = document.documentElement.classList.toggle('dark');
-        
-        if (isDark) {
-            localStorage.setItem('theme', 'dark');
-            if (sunIconGH) sunIconGH.style.display = 'none';
-            if (moonIconGH) moonIconGH.style.display = 'block';
-            if (sunIcon) sunIcon.style.display = 'none';
-            if (moonIcon) moonIcon.style.display = 'block';
-        } else {
-            localStorage.setItem('theme', 'light');
-            if (sunIconGH) sunIconGH.style.display = 'block';
-            if (moonIconGH) moonIconGH.style.display = 'none';
-            if (sunIcon) sunIcon.style.display = 'block';
-            if (moonIcon) moonIcon.style.display = 'none';
-        }
-    }
+        try {
+            localStorage.setItem("scissorhands-theme-mode", preference);
+        } catch (error) {
+            if (
+                !(error instanceof DOMException)
+                || !["SecurityError", "QuotaExceededError"].includes(error.name)
+            ) {
+                throw error;
+            }
 
-    // Initialize on page load
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initDarkMode);
-    } else {
-        initDarkMode();
-    }
-
-    // Add click event listener
-    window.addEventListener('load', function() {
-        const darkModeToggle = document.getElementById('dark-mode-toggle');
-        if (darkModeToggle) {
-            darkModeToggle.addEventListener('click', toggleDarkMode);
+            console.warn("Colour preference could not be saved; it applies to this page only.", error);
         }
     });
-})();
+
+    systemTheme.addEventListener("change", updateTheme);
+    window.addEventListener("storage", (event) => {
+        if (event.key !== "scissorhands-theme-mode" && event.key !== null) {
+            return;
+        }
+
+        preference = event.newValue === "light" || event.newValue === "dark"
+            ? event.newValue
+            : null;
+        updateTheme();
+    });
+
+    updateTheme();
+    themeToggle.hidden = false;
+}
+
+document.querySelectorAll(".site-navigation").forEach((navigation) => {
+    const entries = [...navigation.querySelectorAll(".navigation-toggle")].map((button) => {
+        const submenu = document.getElementById(button.getAttribute("aria-controls"));
+        const item = button.closest(".navigation-item");
+
+        if (!submenu || !item || !item.contains(submenu)) {
+            throw new Error("Navigation toggle must reference its own submenu.");
+        }
+
+        return { button, submenu, item };
+    });
+
+    const close = (entry) => {
+        for (const descendant of entries) {
+            if (descendant === entry || entry.submenu.contains(descendant.button)) {
+                descendant.button.setAttribute("aria-expanded", "false");
+                descendant.submenu.hidden = true;
+            }
+        }
+    };
+
+    for (const entry of entries) {
+        entry.button.addEventListener("click", () => {
+            if (entry.button.getAttribute("aria-expanded") === "true") {
+                close(entry);
+                return;
+            }
+
+            for (const sibling of entries) {
+                if (
+                    sibling !== entry
+                    && sibling.item.parentElement === entry.item.parentElement
+                ) {
+                    close(sibling);
+                }
+            }
+
+            entry.submenu.hidden = false;
+            entry.button.setAttribute("aria-expanded", "true");
+        });
+        entry.submenu.hidden = true;
+        entry.button.hidden = false;
+    }
+
+    navigation.dataset.navigationEnhanced = "true";
+
+    let pointerDown = false;
+    navigation.addEventListener("keydown", (event) => {
+        pointerDown = false;
+        if (event.key !== "Escape") {
+            return;
+        }
+
+        const entry = entries.findLast(
+            ({ button, item }) => button.getAttribute("aria-expanded") === "true"
+                && item.contains(event.target),
+        );
+
+        if (entry) {
+            event.preventDefault();
+            event.stopPropagation();
+            close(entry);
+            entry.button.focus();
+        }
+    });
+
+    document.addEventListener("pointerdown", () => {
+        pointerDown = true;
+    }, true);
+    document.addEventListener("pointercancel", () => {
+        pointerDown = false;
+    }, true);
+
+    navigation.addEventListener("focusout", (event) => {
+        if (pointerDown) {
+            return;
+        }
+
+        for (const entry of entries) {
+            if (!entry.item.contains(event.relatedTarget)) {
+                close(entry);
+            }
+        }
+    });
+
+    document.addEventListener("click", (event) => {
+        pointerDown = false;
+        for (const entry of entries) {
+            if (!entry.item.contains(event.target)) {
+                close(entry);
+            }
+        }
+    });
+});

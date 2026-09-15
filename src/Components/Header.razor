@@ -2,19 +2,27 @@
 
 <header class="site-header">
     <div class="site-header inner">
-        <a href="./" class="site-title">
-            <h1>@((MarkupString)Site!.Title)</h1>
+        <a href="." class="site-title">
+            <h1>@Site!.Title</h1>
         </a>
-        <div class="header-actions">
-            <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
-                <img src="@($"themes/{Theme!.Slug.Trim('/')}/assets/images/sun-icon.svg")" alt="Light mode" class="sun-icon" width="24" height="24" />
-                <img src="@($"themes/{Theme!.Slug.Trim('/')}/assets/images/moon-icon.svg")" alt="Dark mode" class="moon-icon" width="24" height="24" style="display: none;" />
-            </button>
-            <div class="dark-mode-toggle-github">
-                <a href="https://github.com/getscissorhands/minimal-blog" target="_blank"><img src="https://cdn.simpleicons.org/github/181717" alt="GitHub light mode" class="sun-icon-github" width="24" height="24" /></a>
-                <a href="https://github.com/getscissorhands/minimal-blog" target="_blank"><img src="https://cdn.simpleicons.org/github/FFFFFF" alt="GitHub dark mode" class="moon-icon-github" width="24" height="24" style="display: none;" /></a>
-            </div>
-        </div>
+        <nav class="site-navigation" aria-label="Primary navigation">
+            <ul class="navigation-list">
+                <li><a href=".">Home</a></li>
+                @RenderNavigation(NavigationTree)
+                <li><a href="tags">Tags</a></li>
+                <li class="header-actions">
+                    <button class="dark-mode-toggle" type="button" data-theme-toggle
+                            aria-label="Switch to dark mode" title="Switch to dark mode" hidden>
+                        <img src="@GetThemeAssetUrl("assets/images/sun-icon.svg")" alt="" class="sun-icon" width="24" height="24" />
+                        <img src="@GetThemeAssetUrl("assets/images/moon-icon.svg")" alt="" class="moon-icon" width="24" height="24" />
+                    </button>
+                    <a class="github-link" href="https://github.com/getscissorhands/minimal-blog" target="_blank" rel="noopener noreferrer">
+                        <img src="https://cdn.simpleicons.org/github/181717" alt="GitHub" class="sun-icon-github" width="24" height="24" />
+                        <img src="https://cdn.simpleicons.org/github/FFFFFF" alt="" class="moon-icon-github" width="24" height="24" />
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </header>
 
@@ -30,4 +38,47 @@
     /// </summary>
     [CascadingParameter]
     public ThemeManifest? Theme { get; set; }
+
+    /// <summary>
+    /// Gets or sets the engine-prepared navigation hierarchy.
+    /// </summary>
+    [Parameter]
+    public IReadOnlyList<NavigationNode> NavigationTree { get; set; } = [];
+
+    private string GetThemeAssetUrl(string path)
+    {
+        return ContentUrlHelper.GetThemeUrl(Theme!.Slug, path);
+    }
+
+    private RenderFragment RenderNavigation(IReadOnlyList<NavigationNode> nodes) => @<text>
+        @foreach (var item in nodes)
+        {
+            var submenuId = $"navigation-submenu-{item.Path}";
+            <li class="navigation-item">
+                <div class="navigation-link">
+                    @if (item.Url is not null)
+                    {
+                        <a href="@item.Url">@item.Title</a>
+                    }
+                    else
+                    {
+                        <span class="navigation-label">@item.Title</span>
+                    }
+                    @if (item.Children.Count > 0)
+                    {
+                        <button class="navigation-toggle" type="button" aria-expanded="false"
+                                aria-controls="@submenuId" aria-label="@($"Toggle {item.Title} pages")" hidden>
+                            <span aria-hidden="true">&#9662;</span>
+                        </button>
+                    }
+                </div>
+                @if (item.Children.Count > 0)
+                {
+                    <ul class="navigation-children" id="@submenuId">
+                        @RenderNavigation(item.Children)
+                    </ul>
+                }
+            </li>
+        }
+    </text>;
 }

@@ -1,199 +1,139 @@
 # Minimal Blog Theme
 
-A minimal blog theme using Tailwind CSS for ScissorHands.NET, inspired by [astro-minimal-blog](https://github.com/alexanderhodes/astro-minimal-blog).
+A minimal, responsive blog theme for ScissorHands.NET, inspired by
+[astro-minimal-blog](https://github.com/alexanderhodes/astro-minimal-blog).
+The theme uses Razor components, framework-free CSS, and plain JavaScript.
 
-## Theme Structure
+See the [ScissorHands.NET theme documentation](https://getscissorhands.app/docs/themes/)
+for engine configuration and component APIs.
 
-This is the overall structure of the theme.
+## Prerequisites
+
+- [.NET 10+ SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
+- [Visual Studio 2026](https://visualstudio.microsoft.com/) or
+  [VS Code](https://code.visualstudio.com/) with
+  [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
+
+## Repository Layout
 
 ```text
 .
-└── src/
-    ├── assets/
-    │   ├── css/
-    │   │   └── theme.css
-    │   ├── images/
-    │   │   ├── logo.png
-    │   │   ├── moon-icon.svg
-    │   │   └── sun-icon.svg
-    │   └── js/
-    │       └── theme.js
-    │
-    ├── favicon.ico
-    │
-    ├── theme.json
-    │
-    ├── Components/
-    │   ├── Header.razor
-    │   ├── Footer.razor
-    │   ├── PostCard.razor
-    │   └── TagList.razor
-    ├── _Imports.razor
-    ├── MainLayout.razor
-    ├── IndexView.razor
-    ├── PostView.razor
-    ├── PageView.razor
-    └── NotFoundView.razor
+├── src/
+│   ├── assets/
+│   │   ├── css/theme.css
+│   │   ├── images/
+│   │   └── js/theme.js
+│   ├── Components/
+│   ├── favicon.ico
+│   ├── theme.json
+│   ├── MinimalBlog.csproj
+│   ├── MainLayout.razor
+│   ├── IndexView.razor
+│   ├── PostView.razor
+│   ├── PageView.razor
+│   ├── NotFoundView.razor
+│   ├── TagListView.razor
+│   └── TagView.razor
+├── sample/
+│   ├── contents/
+│   ├── appsettings.json
+│   ├── Program.cs
+│   └── sample.csproj
+├── Directory.Build.props
+├── Directory.Packages.props
+└── MinimalBlog.slnx
 ```
 
-## Getting Started
+## Packages
 
-### Theme Manifest &ndash; `theme.json`
+The repository restores ScissorHands packages from NuGet.org. Package versions
+are centralized in `Directory.Packages.props` and use the `1.*-*` floating
+policy from the theme template so restore selects the latest 1.x release,
+including previews.
 
-- `theme.json` defines the metadata of the theme.
+The sample enables:
 
-    ```jsonc
-    {
-      "name": "Minimal Blog",
-      "version": "1.0.0",
-      "description": "A minimal blog theme using Tailwind CSS for ScissorHands.NET, inspired by [astro-minimal-blog](https://github.com/alexanderhodes/astro-minimal-blog).",
-      "slug": "minimal-blog",
-      "stylesheets": [
-        "assets/css/theme.css"
-      ],
-      "scripts": [
-        "assets/js/theme.js"
-      ]
-    }
-    ```
+- [Google Analytics](https://www.nuget.org/packages/ScissorHands.Plugin.GoogleAnalytics)
+- [Open Graph](https://www.nuget.org/packages/ScissorHands.Plugin.OpenGraph)
 
-  You can have one or more CSS and JavaScript files. If you choose to do so, make sure to include them all in this `theme.json`. The engine exposes these values as non-null, read-only collections; configure them in the manifest rather than modifying them at runtime.
+## Theme Discovery
 
-### Automatic Theme Discovery
+`Site:Theme` is set to `minimal-blog`. The engine normalizes that slug and
+resolves the `ScissorHands.Theme.MinimalBlog` namespace.
 
-- Set `Site:Theme` to the theme slug:
+The namespace contains one concrete component for every theme role:
 
-    ```json
-    {
-      "Site": {
-        "Theme": "minimal-blog"
-      }
-    }
-    ```
+- `MainLayout`
+- `IndexView`
+- `PostView`
+- `PageView`
+- `NotFoundView`
+- `TagListView`
+- `TagView`
 
-- The engine normalizes the slug and component namespace by removing non-alphanumeric characters and comparing them case-insensitively. Therefore, `minimal-blog` resolves the `ScissorHands.Theme.MinimalBlog` namespace.
-- The namespace must contain exactly one concrete component derived from each required base type:
-  - `MainLayout` from `MainLayoutBase`
-  - `IndexView` from `IndexViewBase`
-  - `PostView` from `PostViewBase`
-  - `PageView` from `PageViewBase`
-  - `NotFoundView` from `NotFoundViewBase`
-- Tag components derived from `TagListViewBase` and `TagViewBase` are optional. When they are absent, the engine uses its built-in tag views.
+Startup uses automatic discovery:
 
-### Integrated Plugins
+```csharp
+using ScissorHands.Web;
 
-- [Google Analytics](https://github.com/getscissorhands/plugins/tree/main/src/ScissorHands.Plugin.GoogleAnalytics)
-- [Open Graph](https://github.com/getscissorhands/plugins/tree/main/src/ScissorHands.Plugin.OpenGraph)
+var app = new ScissorHandsApplicationBuilder(args).Build();
+await app.RunAsync();
+```
 
-### Layout Components
+## Local Preview
 
-#### `_Imports.razor` Global Component
+The repository includes the relative symbolic link
+`sample/themes/minimal-blog -> ../../src`.
 
-- It defines the global namespace and using directives.
+On Windows, enable Developer Mode and clone with symbolic-link support:
 
-    ```razor
-    @using ScissorHands.Core.Manifests
-    @using ScissorHands.Core.Models
-    @using ScissorHands.Plugin.GoogleAnalytics
-    @using ScissorHands.Plugin.OpenGraph
-    @using ScissorHands.Theme.MinimalBlog.Components.Footer
-    @using ScissorHands.Theme.MinimalBlog.Components.Header
-    @using ScissorHands.Theme.MinimalBlog.Components.PostCard
-    @using ScissorHands.Theme.MinimalBlog.Components.TagList
+```powershell
+git clone -c core.symlinks=true https://github.com/getscissorhands/minimal-blog.git
+```
 
-    @namespace ScissorHands.Theme.MinimalBlog
-    ```
+If an existing Windows checkout materialized the link as a plain text file,
+enable `core.symlinks`, remove that file, and check it out again.
 
-#### `MainLayout.razor` Layout Component
+Restore and build from the repository root:
 
-- This is the overall HTML layout structure.
-- It calls both UI components and plugin components.
-- To change the way of displaying the `@PageTitle` value, override the `CalculatePageTitle()` method:
+```bash
+dotnet restore
+dotnet build --configuration Release --no-restore
+```
 
-    ```csharp
-    @code {
-        protected override string CalculatePageTitle()
-        {
-            // ADD LOGIC HERE
-        }
-    }
-    ```
+Run the preview from the sample directory:
 
-- To change the way of displaying the `@PageDescription` value, override the `CalculatePageDescription()` method:
+```bash
+cd sample
+dotnet run -- --preview
+```
 
-    ```csharp
-    @code {
-        protected override string CalculatePageDescription()
-        {
-            // ADD LOGIC HERE
-        }
-    }
-    ```
+Generate static output with:
 
-#### `IndexView.razor` Page Component
+```bash
+dotnet run -- --build
+```
 
-- This is the landing page of your static website.
+The generated files are written to `sample/preview` and `sample/dist`.
 
-#### `PostView.razor` Page Component
+## Theme Manifest
 
-- This is the blog post page.
+`src/theme.json` defines the theme metadata and base-relative assets:
 
-#### `PageView.razor` Page Component
+```json
+{
+  "name": "Minimal Blog",
+  "version": "1.0.0",
+  "description": "A minimal blog theme for ScissorHands.NET.",
+  "slug": "minimal-blog",
+  "stylesheets": [
+    "assets/css/theme.css"
+  ],
+  "scripts": [
+    "assets/js/theme.js"
+  ]
+}
+```
 
-- This is the non-blog post page.
-
-#### `NotFoundView.razor` Page Component
-
-- This is the fallback page for content that cannot be found.
-
-### UI Components
-
-- The list of UI components used in this theme are:
-  - Header
-  - Footer
-  - PostCard
-  - TagList
-
-## Previewing Theme
-
-1. Set environment variables for GitHub NuGet Package Registry.
-
-    ```bash
-    # zsh/bash
-    source ./scripts/setup-gh-auth.sh --username "<GITHUB_USERNAME>" --token "<GITHUB_TOKEN>"
-    ```
-
-    ```powershell
-    # PowerShell
-    . ./scripts/setup-gh-auth.ps1 -Username "<GITHUB_USERNAME>" -Token "<GITHUB_TOKEN>"
-    ```
-
-   > **NOTE**: Make sure to **sourcing** the script instead of executing it.
-
-1. Add a NuGet package for the theme.
-
-    ```bash
-    dotnet add package ScissorHands.Theme --prerelease
-    ```
-
-1. Create a symbolic link under the `themes` directory.
-
-    ```bash
-    # zsh/bash
-    REPOSITORY_ROOT=$(git rev-parse --show-toplevel)
-    ln -s $REPOSITORY_ROOT/src $REPOSITORY_ROOT/preview/ScissorHands/themes/minimal-blog
-    ```
-
-    ```powershell
-    # PowerShell
-    $REPOSITORY_ROOT = git rev-parse --show-toplevel
-    New-Item -ItemType SymbolicLink -Path "$REPOSITORY_ROOT/preview/ScissorHands/themes/minimal-blog" -Target "$REPOSITORY_ROOT/src"
-    ```
-
-1. Run the app.
-
-    ```bash
-    dotnet run --project ./preview/ScissorHands -- --preview
-    ```
-
-1. Verify the generated HTML properly renders your theme.
+Manifest collections are read-only at runtime. Declare stylesheets and scripts
+in the manifest rather than changing them while rendering.

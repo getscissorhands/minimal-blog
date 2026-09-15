@@ -5,7 +5,16 @@
     <ul class="@CssClass">
         @foreach (var tag in Tags)
         {
-            <li>@tag</li>
+            <li>
+                @if (TagUrlFactory is not null)
+                {
+                    <a href="@TagUrlFactory(tag)">#@tag</a>
+                }
+                else
+                {
+                    <span>#@tag</span>
+                }
+            </li>
         }
     </ul>
 }
@@ -22,4 +31,10 @@
     /// </summary>
     [Parameter]
     public string CssClass { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the function used to create tag URLs.
+    /// </summary>
+    [Parameter]
+    public Func<string, string>? TagUrlFactory { get; set; }
 }
