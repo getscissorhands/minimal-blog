@@ -134,7 +134,7 @@ jobs:
           "value=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
       - name: Download release artifact
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v8
         with:
           name: release-artifact
           path: published
