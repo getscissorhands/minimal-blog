@@ -5,7 +5,7 @@
     @if (string.IsNullOrWhiteSpace(Document?.Metadata.HeroImage) == false)
     {
         <div class="post hero-image">
-            <img src="@Document.Metadata.HeroImage" alt="@Document.Metadata.Title" />
+            <img src="@GetImageUrl(Document.Metadata.HeroImage)" alt="@Document.Metadata.Title" />
         </div>
     }
     <header class="post header">
@@ -16,7 +16,7 @@
             }
         </p>
         <h1 class="post title">@Document?.Metadata.Title</h1>
-        <TagList Tags="@Document?.Metadata.Tags" CssClass="post tags" />
+        <TagList Tags="@Document?.Metadata.Tags" CssClass="post tags" TagUrlFactory="@GetTagUrl" />
     </header>
     <article class="post body">
         @((MarkupString)Document?.Html!)

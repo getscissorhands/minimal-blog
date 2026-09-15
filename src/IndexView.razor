@@ -4,8 +4,11 @@
 <section class="home">
     <header class="home hero">
         <p class="home eyebrow">Welcome to</p>
-        <h1 class="home title">@((MarkupString)Site!.Title)</h1>
-        <p class="home subtitle">@((MarkupString)Site!.DescriptionInHtml!)</p>
+        <h1 class="home title">@Site!.Title</h1>
+        @if (string.IsNullOrWhiteSpace(Site.Description) == false)
+        {
+            <p class="home subtitle">@Site.Description</p>
+        }
     </header>
     <div class="home list">
         @if (Documents?.Any() == false)
@@ -16,7 +19,10 @@
         {
             @foreach (var post in Documents!)
             {
-                <PostCard Post="@post" MaxDescriptionLength="150" />
+                <PostCard Post="@post"
+                          ContentUrl="@GetContentUrl(post.Metadata.Slug)"
+                          TagUrlFactory="@ContentUrlHelper.GetTagUrl"
+                          MaxDescriptionLength="150" />
             }
         }
     </div>

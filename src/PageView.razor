@@ -5,13 +5,33 @@
     @if (string.IsNullOrWhiteSpace(Document?.Metadata.HeroImage) == false)
     {
         <div class="page hero-image">
-            <img src="@Document.Metadata.HeroImage" alt="@Document.Metadata.Title" />
+            <img src="@ContentUrlHelper.GetImageUrl(Document.Metadata.HeroImage)" alt="@Document.Metadata.Title" />
         </div>
     }
     <header class="page header">
         <h1 class="page title">@Document?.Metadata.Title</h1>
+        <TagList Tags="@Document?.Metadata.Tags" CssClass="page tags" TagUrlFactory="@GetTagUrl" />
     </header>
     <article class="page body">
         @((MarkupString)Document?.Html!)
     </article>
+    @if (PageNavigation?.Previous is not null || PageNavigation?.Next is not null)
+    {
+        <nav class="page-navigation" aria-label="Page navigation">
+            @if (PageNavigation?.Previous is { } previous)
+            {
+                <a class="page-navigation-previous" href="@previous.Url" rel="prev">
+                    <span class="page-navigation-direction">Previous</span>
+                    <span>@previous.Title</span>
+                </a>
+            }
+            @if (PageNavigation?.Next is { } next)
+            {
+                <a class="page-navigation-next" href="@next.Url" rel="next">
+                    <span class="page-navigation-direction">Next</span>
+                    <span>@next.Title</span>
+                </a>
+            }
+        </nav>
+    }
 </section>

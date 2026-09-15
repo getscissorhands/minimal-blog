@@ -3,9 +3,9 @@
 <footer class="site-footer">
     <div class="site-footer inner">
         <div class="footer-links">
-            <a href="@LocalePrefix/about">About</a>
+            <a href="@ContentUrlHelper.GetContentUrl($"{LocalePrefix}about")">About</a>
         </div>
-        <p>&copy; @DateTimeOffset.UtcNow.Year @((MarkupString)Site!.Title)</p>
+        <p>&copy; @DateTimeOffset.UtcNow.Year @Site!.Title</p>
     </div>
 </footer>
 
@@ -33,7 +33,7 @@
         await base.OnInitializedAsync();
 
         LocalePrefix = Site?.UseLocaleInUrl == true && string.IsNullOrWhiteSpace(PageLocale) == false
-                     ? $"/{PageLocale}"
+                     ? $"{ContentUrlHelper.GetLocaleSegment(PageLocale)}/"
                      : string.Empty;
     }
 }
