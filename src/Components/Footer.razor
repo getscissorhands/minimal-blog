@@ -3,7 +3,10 @@
 <footer class="site-footer">
     <div class="site-footer inner">
         <div class="footer-links">
-            <a href="@ContentUrlHelper.GetContentUrl($"{LocalePrefix}about")">About</a>
+            @if (NavigationTree.FirstOrDefault(node => node.Path == "about") is { Url: not null } about)
+            {
+                <a href="@about.Url">@about.Title</a>
+            }
         </div>
         <p>&copy; @DateTimeOffset.UtcNow.Year @Site!.Title</p>
     </div>
@@ -11,29 +14,14 @@
 
 @code {
     /// <summary>
-    /// Gets or sets the locale prefix for URLs.
-    /// </summary>
-    protected string? LocalePrefix { get; set; }
-
-    /// <summary>
     /// Gets or sets the <see cref="SiteManifest"/> instance.
     /// </summary>
     [CascadingParameter]
     public SiteManifest? Site { get; set; }
 
     /// <summary>
-    /// Gets or sets the page locale.
+    /// Gets or sets the engine-prepared navigation hierarchy.
     /// </summary>
     [Parameter]
-    public string? PageLocale { get; set; }
-
-    /// <inheritdoc />
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-
-        LocalePrefix = Site?.UseLocaleInUrl == true && string.IsNullOrWhiteSpace(PageLocale) == false
-                     ? $"{ContentUrlHelper.GetLocaleSegment(PageLocale)}/"
-                     : string.Empty;
-    }
+    public IReadOnlyList<NavigationNode> NavigationTree { get; set; } = [];
 }

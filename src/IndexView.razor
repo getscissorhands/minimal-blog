@@ -21,7 +21,7 @@
             {
                 <PostCard Post="@post"
                           ContentUrl="@GetContentUrl(post.Metadata.Slug)"
-                          TagUrlFactory="@ContentUrlHelper.GetTagUrl"
+                          TagUrlFactory="@(tag => LocaleContext?.GetTagUrl(tag) ?? ContentUrlHelper.GetTagUrl(tag))"
                           MaxDescriptionLength="150" />
             }
         }

@@ -244,6 +244,72 @@ button:focus-visible {
 }
 
 /* Main Content */
+.language-switcher {
+    max-width: var(--max-width);
+    margin: 16px auto 0;
+    padding: 0 20px;
+}
+
+.language-switcher ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.language-switcher a {
+    display: inline-block;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    background: var(--card);
+    text-decoration: none;
+}
+
+.language-switcher a:hover,
+.language-switcher a[aria-current="true"] {
+    border-color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.localization-notice {
+    margin-bottom: 20px;
+    padding: 16px 20px;
+    border: 1px solid var(--border);
+    border-inline-start: 4px solid var(--accent);
+    border-radius: 6px;
+    background: var(--card);
+    color: var(--text);
+    overflow-wrap: anywhere;
+}
+
+.publication-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 8px 0;
+}
+
+.publication-badge {
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 0.85rem;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.post > .publication-badges,
+.page > .publication-badges {
+    margin: 20px 28px;
+}
+
 .site-main {
     max-width: var(--max-width);
     margin: 32px auto;

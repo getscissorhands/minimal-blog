@@ -1,7 +1,10 @@
 @inherits ScissorHands.Theme.PageViewBase
 @layout MainLayout
 
-<section class="page">
+<LocalizationFallbackBanner />
+<article class="page" lang="@LocaleContext?.ContentLocale"
+         @attributes="PublicationBadgeBase.GetRegionAttributes(Document, PublicationBadgePlacement.Detail)">
+    <PublicationBadges />
     @if (string.IsNullOrWhiteSpace(Document?.Metadata.HeroImage) == false)
     {
         <div class="page hero-image">
@@ -12,9 +15,9 @@
         <h1 class="page title">@Document?.Metadata.Title</h1>
         <TagList Tags="@Document?.Metadata.Tags" CssClass="page tags" TagUrlFactory="@GetTagUrl" />
     </header>
-    <article class="page body">
+    <div class="page body">
         @((MarkupString)Document?.Html!)
-    </article>
+    </div>
     @if (PageNavigation?.Previous is not null || PageNavigation?.Next is not null)
     {
         <nav class="page-navigation" aria-label="Page navigation">
@@ -34,4 +37,4 @@
             }
         </nav>
     }
-</section>
+</article>

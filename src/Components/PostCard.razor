@@ -1,6 +1,7 @@
 @namespace ScissorHands.Theme.MinimalBlog.Components.PostCard
 
-<article class="home card">
+<article class="home card" lang="@Post.Metadata.Locale"
+         @attributes="PublicationBadgeBase.GetRegionAttributes(Post, PublicationBadgePlacement.Listing)">
     @if (IsEmpty == true)
     {
         <div class="home card-content">
@@ -19,7 +20,7 @@
             <div class="home card-meta">
                 @if (Post.Metadata.Published is { } published)
                 {
-                    <span>@published.ToString("MMMM dd, yyyy")</span>
+                    <time lang="@(LocaleContext?.Locale ?? "en-US")" datetime="@published.ToString("O", CultureInfo.InvariantCulture)">@published.ToString("MMMM dd, yyyy", CultureInfo.GetCultureInfo(LocaleContext?.Locale ?? "en-US"))</time>
                 }
             </div>
             <a class="home link" href="@ContentUrl">
@@ -29,6 +30,7 @@
                     <p class="home card-desc">@GetTruncatedDescription()</p>
                 }
             </a>
+            <PublicationBadges Content="@Post" Placement="PublicationBadgePlacement.Listing" />
             @if (Post.Metadata.Tags.Any())
             {
                 <ul class="home card-tags">
@@ -52,6 +54,9 @@
 </article>
 
 @code {
+    [CascadingParameter]
+    public LocaleContext? LocaleContext { get; set; }
+
     /// <summary>
     /// Gets or sets the <see cref="ContentDocument"/> instance.
     /// </summary>
