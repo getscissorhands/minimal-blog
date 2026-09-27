@@ -3,7 +3,8 @@
 <footer class="site-footer">
     <div class="site-footer inner">
         <div class="footer-links">
-            @if (NavigationTree.FirstOrDefault(node => node.Path == "about") is { Url: not null } about)
+            @if (NavigationTree.FirstOrDefault(node => node.Path == "about"
+                || node.Path.EndsWith("/about", StringComparison.Ordinal)) is { Url: not null } about)
             {
                 <a href="@about.Url">@about.Title</a>
             }

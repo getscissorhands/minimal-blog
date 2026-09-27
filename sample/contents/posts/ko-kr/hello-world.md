@@ -11,7 +11,7 @@ tags:
   - korean
 ---
 
-## 안녕하세요
+## 안녕하세요 {#lorem-ipsum-dolor-sit-amet}
 
 이 글은 영어 글과 같은 파일 이름과 발행 날짜를 사용하는 실제 번역입니다.
 
