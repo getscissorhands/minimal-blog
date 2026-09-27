@@ -166,6 +166,27 @@ Authored document links are localized by the engine, preserving query/fragment;
 `{data-localize="false"}` deliberately targets primary content. Resources stay
 shared. Other theme UI text is not automatically translated.
 
+## Content examples
+
+The [engine sample](https://github.com/getscissorhands/Scissorhands.NET/tree/vnext/sample/contents)
+also demonstrates directory-index pages, nested navigation, hidden pages,
+custom not-found content, and a complete technical article. This theme's sample
+includes equivalent fixtures tailored to its own views and existing images:
+
+| Source | What to inspect |
+| --- | --- |
+| `posts/building-a-static-site.md` | Article with Markdown images, a table, code, lists, and links to pages and tags |
+| `pages/parent/index.md`, `pages/parent/01-child.md`, `pages/parent/03-child-2.md` | Inferred directory-index route, numbered source order, clean slugs, previous/next links |
+| `pages/parent/02-group/` | Non-clickable Group label, visible descendant, and a published but navigation-hidden sibling |
+| `pages/ko-kr/parent/index.md` | Real page translation; untranslated children fall back on Korean routes |
+| `pages/not-found.md` | Custom Markdown body in the shared root `404.html` view |
+
+`pages/about.md` intentionally has **no** Korean translation: `/ko-kr/about/`
+remains the example of a localized route with primary-content fallback.
+`pages/draft-guide.md` already demonstrates a preview-only page, so a second
+draft-page fixture is unnecessary. All content images are shared; the additional
+article reuses one rather than introducing a duplicate sample asset.
+
 ## Publication timing and preview exposure
 
 `Site.TimeZone` is explicitly `UTC` in this sample. It controls offset-free post
@@ -217,8 +238,12 @@ For both `/` and `/minimal-blog/`, generate build and preview and inspect:
 | `scheduled-post/` | Scheduled badge with `data-publication-date="2099-01-01"` |
 | `ko-kr/scheduled-post/` | Both draft and inherited scheduled badges, no fallback notice |
 | `draft-guide/`, `ko-kr/draft-guide/` | Draft page and inherited translation draft; adjacent-page navigation |
+| `parent/`, `ko-kr/parent/` | Inferred index route; real Korean page translation; nested navigation with a non-clickable Group |
+| `parent/child/`, `parent/group/visible-grandchild/`, `parent/child-2/` (and Korean equivalents) | Cross-directory previous/next links; untranslated Korean children retain localized routes |
+| `parent/group/hidden-grandchild/`, `ko-kr/parent/group/hidden-grandchild/` | Generated and tagged but absent from navigation and the reading sequence |
+| `building-a-static-site/`, `ko-kr/building-a-static-site/` | Article table, code, shared image, and a Korean fallback copy |
 | Home, `tags/`, `tags/preview/`, Korean equivalents | Correct per-entry status, locale-aware URLs and generated metadata |
-| `404.html` | Shared not-found view; working Home/switch links; no publication or document SEO markers |
+| `404.html` | Shared not-found view with authored Markdown body; working Home/switch links; no publication or document SEO markers |
 
 Production must contain neither draft/future routes nor badge markers or links
 to withheld content. Repeat with localization disabled and locale fixtures
@@ -244,15 +269,18 @@ messages to check that notices/badges expose encoded text, not markup.
 
 ### Verification recorded on 2026-09-27
 
-All final results below use the **published** versions in the table above.
-An earlier local-plugin experiment was superseded by the NuGet.org-only run.
+The original migration checks used the **published** versions in the table
+above; an earlier local-plugin experiment was superseded by the NuGet.org-only
+run. The generated-output and HTTP checks below were repeated after adding
+the content examples. Browser appearance and plugin-mode checks describe the
+earlier fixtures; they were not rerun for the new article and page tree.
 
 | Check | Observed result |
 | --- | --- |
 | Release restore/build | Both projects build with no warnings/errors; all six ScissorHands libraries resolve to `1.0.0-preview.20260927.1` |
-| Root and demo-path production | 17 HTML files each; 286 internal link/asset/metadata targets each; no withheld routes or publication badges |
-| Root and demo-path preview | 23 HTML files each; 427 internal targets each; 19 required badges each, including combined/inherited states |
-| Subpath HTTP boundary | Root GET/HEAD query-preserving redirects; outside-prefix 404s; directory redirects; all 32 generated public files served successfully |
+| Root and demo-path production | 37 HTML files each; 857 local `href`/`src` targets each resolve; no withheld routes or publication badges |
+| Root and demo-path preview | 43 HTML files each; 990 local `href`/`src` targets each resolve; 19 publication badges each, including combined/inherited states |
+| Subpath HTTP boundary | Query-preserving root GET redirect; outside-prefix 404s; 11 representative content, tag, asset, and 404 routes served successfully |
 | Localization disabled | 9 production pages and 12 preview pages; 8 preview badges with English defaults; no localization/social-locale markers |
 | Browser appearance | 16 routes at 1280px/320px in light/dark at both base paths: 128 checks without horizontal overflow; new switcher/notice/badge text contrast exceeds 4.5:1 |
 | Browser interactions | Exact keyboard language switching, missing-tag switch to locale home, persisted/denied-storage colour preference, reduced motion, no-JavaScript navigation, nested Escape/focus restoration |
