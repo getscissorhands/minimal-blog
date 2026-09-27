@@ -17,4 +17,5 @@ English content and displays the configured translation notice.
 
 - [Hello, world](hello-world/?source=about#lorem-ipsum-dolor-sit-amet)
 - [Primary-language post](hello-world/){data-localize="false"}
+- [Parent page and its nested navigation](parent/)
 - [Shared image](images/hello-world.png)
