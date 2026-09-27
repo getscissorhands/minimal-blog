@@ -7,9 +7,39 @@ Release headings use the current tags and original publication dates.
 
 ## [Unreleased]
 
+### Added
+
+- Theme-owned language switching, canonical/alternate metadata, and encoded
+  fallback notices using the ScissorHands.NET localization contracts.
+- Preview publication badges for detail and listing content, including combined
+  draft/scheduled and inherited translation status, with required regions and
+  machine-readable dates.
+- English/Korean translation, fallback, draft, and scheduled sample fixtures.
+
 ### Changed
 
 - Documented historical preview releases and streamlined contribution guidance.
+- Migrated to the verified Theme/Web `1.0.0-preview.20260927.1` baseline, ordered
+  `Site.Locales`, application-owned `Theme.Localization`, and directory-based
+  translations; removed legacy locale settings.
+- Forwarded `LocaleContext` to views/plugins and used active-locale prepared
+  navigation, Home, Tags, and language-switch destinations.
+- Documented `Site.TimeZone`, scheduled rebuild/deployment, unpublished preview
+  exposure, and root/subpath verification without deploying the demo.
+
+### Fixed
+
+- Restored the footer's About link on additional-locale routes by matching the
+  engine's locale-prefixed navigation paths while retaining its prepared URLs.
+- Preserved the sample's cross-language fragment destination in the translated
+  Hello World heading.
+- Verified the independently published Google Analytics/Open Graph
+  `1.0.0-preview.20260927.1` packages. The older Open Graph
+  `1.0.0-preview.20260915.1` compiled but failed generation by calling the removed
+  `SiteManifest.Locale` API; the upstream migration is tracked in
+  [getscissorhands/plugins#17](https://github.com/getscissorhands/plugins/issues/17)
+  and [getscissorhands/plugins#18](https://github.com/getscissorhands/plugins/pull/18).
+  See the [sample compatibility record](sample/README.md#tested-versions).
 
 ## [v1.0.0-preview.20260915.1] - 2026-09-15
 

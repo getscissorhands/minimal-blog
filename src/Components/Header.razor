@@ -2,14 +2,17 @@
 
 <header class="site-header">
     <div class="site-header inner">
-        <a href="." class="site-title">
+        <a href="@HomeUrl" class="site-title">
             <h1>@Site!.Title</h1>
         </a>
         <nav class="site-navigation" aria-label="Primary navigation">
             <ul class="navigation-list">
-                <li><a href=".">Home</a></li>
+                <li><a href="@HomeUrl">Home</a></li>
                 @RenderNavigation(NavigationTree)
-                <li><a href="tags">Tags</a></li>
+                @if (TagIndexUrl is not null)
+                {
+                    <li><a href="@TagIndexUrl">Tags</a></li>
+                }
                 <li class="header-actions">
                     <button class="dark-mode-toggle" type="button" data-theme-toggle
                             aria-label="Switch to dark mode" title="Switch to dark mode" hidden>
@@ -44,6 +47,12 @@
     /// </summary>
     [Parameter]
     public IReadOnlyList<NavigationNode> NavigationTree { get; set; } = [];
+
+    [Parameter]
+    public string HomeUrl { get; set; } = ".";
+
+    [Parameter]
+    public string? TagIndexUrl { get; set; }
 
     private string GetThemeAssetUrl(string path)
     {

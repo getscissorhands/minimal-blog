@@ -1,7 +1,10 @@
 @inherits ScissorHands.Theme.PostViewBase
 @layout MainLayout
 
-<section class="post">
+<LocalizationFallbackBanner />
+<article class="post" lang="@LocaleContext?.ContentLocale"
+         @attributes="PublicationBadgeBase.GetRegionAttributes(Document, PublicationBadgePlacement.Detail)">
+    <PublicationBadges />
     @if (string.IsNullOrWhiteSpace(Document?.Metadata.HeroImage) == false)
     {
         <div class="post hero-image">
@@ -12,13 +15,13 @@
         <p class="post meta">
             @if (Document?.Metadata.Published is { } published)
             {
-                <span>@published.ToString("MMMM dd, yyyy")</span>
+                <time lang="@(LocaleContext?.Locale ?? "en-US")" datetime="@published.ToString("O", CultureInfo.InvariantCulture)">@published.ToString("MMMM dd, yyyy", CultureInfo.GetCultureInfo(LocaleContext?.Locale ?? "en-US"))</time>
             }
         </p>
         <h1 class="post title">@Document?.Metadata.Title</h1>
         <TagList Tags="@Document?.Metadata.Tags" CssClass="post tags" TagUrlFactory="@GetTagUrl" />
     </header>
-    <article class="post body">
+    <div class="post body">
         @((MarkupString)Document?.Html!)
-    </article>
-</section>
+    </div>
+</article>

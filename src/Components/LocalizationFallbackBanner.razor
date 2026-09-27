@@ -1,0 +1,6 @@
+@inherits LocalizationFallbackBannerBase
+
+@if (IsFallback)
+{
+    <aside class="localization-notice" role="note" @attributes="BannerAttributes">@FallbackMessageContent</aside>
+}
