@@ -1,12 +1,13 @@
 ---
-title: Scheduled post
+title: Scheduled post preview
+description: A future post paired with a scheduled translation.
+hero_image: images/scheduled-post.svg
 slug: scheduled-post
-published: 2099-01-01T09:00:00+09:00
+published: 2099-01-01
 tags:
-  - preview
+  - publication-preview
 ---
 
-This post remains preview-only until its publication instant. Rebuild and deploy
-when that time arrives: static files do not publish themselves.
+This deliberately distant date keeps the sample scheduled until 2099. Preview displays the authored date in a scheduled badge; production withholds the post until its publication instant.
 
-Its Korean translation is also draft, so preview shows both badges there.
+The Korean translation declares the same written calendar date, as required for paired posts. `Site.TimeZone` determines midnight for dates with no explicit offset; the sample uses UTC.

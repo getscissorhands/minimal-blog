@@ -1,21 +1,18 @@
 ---
-title: About Us
+title: About
+description: Explore the ScissorHands.NET theme template through sample articles, page navigation, and shared topics.
 slug: about
-description: |
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 show_in_navigation: true
 tags:
-  - about
+  - sample
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consequat porttitor ullamcorper. Nullam sed fringilla ex, non condimentum nibh. Vestibulum sit amet urna sed sem viverra dignissim vel quis purus. Pellentesque nec urna nec dolor feugiat ullamcorper. Cras luctus vel neque eget commodo. Nulla aliquam felis nulla, vitae rutrum lacus bibendum in. Nulla id est dui. Quisque tempus erat tortor, non tempor turpis scelerisque sed. Nam id posuere felis. Cras fermentum tristique dui, a lobortis odio ornare vitae.
+This sample uses ScissorHands packages from NuGet.org and the linked theme
+sources, so theme changes can be previewed locally.
 
-## Language and navigation examples
+The `show_in_navigation: true` frontmatter setting adds this page to the site
+navigation. In production, Next opens the [theme guide](theme-guide); preview
+also includes a draft page in the reading sequence before it. The guide
+demonstrates nested navigation, source ordering, and stable page URLs.
 
-This page intentionally has no Korean translation. Its Korean route keeps the
-English content and displays the configured translation notice.
-
-- [Hello, world](hello-world/?source=about#lorem-ipsum-dolor-sit-amet)
-- [Primary-language post](hello-world/){data-localize="false"}
-- [Parent page and its nested navigation](parent/)
-- [Shared image](images/hello-world.png)
+The home page contains dated articles with different tags and descriptions. Visit the [Markdown topic](tags/markdown) for typography examples or the [theme topic](tags/theme) to see posts and pages grouped together.
