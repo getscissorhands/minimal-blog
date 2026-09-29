@@ -7,6 +7,25 @@ Release headings use the current tags and original publication dates.
 
 ## [Unreleased]
 
+## [v1.0.0-preview.20260929.2] - 2026-09-29
+
+### Added
+
+- Credited the original astro-minimal-blog theme beside the footer copyright
+  with a link to its repository.
+
+### Changed
+
+- Moved component parameters and helpers into matching `.razor.cs` partial
+  classes and kept recursive navigation markup in a dedicated Razor component.
+- Clarified layout, navigation, locale, UI validation, and CI guidance in
+  `AGENTS.md`.
+
+### Fixed
+
+- Showed the moon icon in light mode and the sun icon in dark mode, including
+  system-selected dark mode. Both now match navigation text at rest and on hover.
+
 ## [v1.0.0-preview.20260929.1] - 2026-09-29
 
 ### Added
@@ -118,7 +137,8 @@ Release headings use the current tags and original publication dates.
 
 - Initial Minimal Blog theme and release workflow.
 
-[Unreleased]: https://github.com/getscissorhands/minimal-blog/compare/v1.0.0-preview.20260929.1...HEAD
+[Unreleased]: https://github.com/getscissorhands/minimal-blog/compare/v1.0.0-preview.20260929.2...HEAD
+[v1.0.0-preview.20260929.2]: https://github.com/getscissorhands/minimal-blog/compare/v1.0.0-preview.20260929.1...v1.0.0-preview.20260929.2
 [v1.0.0-preview.20260929.1]: https://github.com/getscissorhands/minimal-blog/compare/v1.0.0-preview.20260915.1...v1.0.0-preview.20260929.1
 [v1.0.0-preview.20260915.1]: https://github.com/getscissorhands/minimal-blog/compare/v1.0.0-preview.20260102.1...v1.0.0-preview.20260915.1
 [v1.0.0-preview.20260102.1]: https://github.com/getscissorhands/minimal-blog/compare/v1.0.0-preview.20251226.2...v1.0.0-preview.20260102.1
