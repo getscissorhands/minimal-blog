@@ -2,59 +2,46 @@
 
 A minimal, responsive blog theme for [ScissorHands.NET](https://getscissorhands.app/), inspired by [astro-minimal-blog](https://github.com/alexanderhodes/astro-minimal-blog). It uses Razor components, framework-free CSS, and plain JavaScript.
 
-[View the demo](https://getscissorhands.app/minimal-blog/) or read the [theme documentation](https://getscissorhands.app/docs/themes/).
+See [the demo](https://getscissorhands.app/minimal-blog/) or read the **[theme documentation](https://getscissorhands.app/docs/themes/)** for setup, configuration, component APIs, navigation, and customization.
 
-## Requirements
+## Prerequisites
 
-- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
-- [Visual Studio 2026](https://visualstudio.microsoft.com/) or [Visual Studio Code](https://code.visualstudio.com/) with the [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
+- [.NET 10+ SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
+- [Visual Studio 2026](https://visualstudio.microsoft.com/) or [VS Code](https://code.visualstudio.com/) with [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
 
-## Run locally
+## Plugins
 
-The floating ScissorHands.NET Theme/Web and Google Analytics/Open Graph
-references resolved to `1.0.0-preview.20260928.1` on 2026-09-28. Later
-restores may resolve newer packages; see the [sample guide](sample/README.md).
+This theme includes the following plugins:
 
-Restore and build from the repository root:
+- [Google Analytics](https://github.com/getscissorhands/plugins/tree/main/src/ScissorHands.Plugin.GoogleAnalytics)
+- [Open Graph](https://github.com/getscissorhands/plugins/tree/main/src/ScissorHands.Plugin.OpenGraph)
 
-```shell
-dotnet restore
-dotnet build --configuration Release --no-restore
+The default configuration of the plugins above, refer to the [sample README](./sample/README.md#plugin-settings).
+
+## Local Preview
+
+The sample needs the committed symbolic link at `sample/themes/minimal-blog` pointing to `src`, with the relative target `../../src`. Recreate it manually if your checkout did not preserve symlinks.
+
+If the link is missing, run one of the following from the repository root.
+
+```bash
+# zsh/bash
+mkdir -p sample/themes
+ln -s ../../src sample/themes/minimal-blog
 ```
 
-Run the preview:
+```powershell
+# PowerShell
+New-Item -ItemType Directory -Path ./sample/themes -Force
+New-Item -ItemType SymbolicLink -Path ./sample/themes/minimal-blog -Target ../../src
+```
 
-```shell
+Then build and preview from the repository root:
+
+```bash
+dotnet restore && dotnet build
 cd sample
 dotnet run -- --preview
 ```
 
-Generate static output with `dotnet run -- --build` from `sample`. Output is written to `sample/preview` or `sample/dist`.
-
-Never deploy `preview/`: it intentionally exposes draft pages/posts and scheduled
-posts. See the [sample guide](sample/README.md) for migration, publication timing,
-root/subpath hosting, and verification instructions.
-
-## Customize
-
-- `src/theme.json`: theme metadata and asset declarations.
-- `src/*.razor`: layout, content, error, and tag views.
-- `src/Components/`: shared UI components.
-- `src/assets/`: theme CSS, JavaScript, and images.
-- `sample/appsettings.json`: local site and plugin configuration.
-- `sample/contents/`: preview posts, pages, and images.
-
-The sample enables the [Google Analytics](https://www.nuget.org/packages/ScissorHands.Plugin.GoogleAnalytics) and [Open Graph](https://www.nuget.org/packages/ScissorHands.Plugin.OpenGraph)
-plugins.
-
-ScissorHands package versions are centralized in `Directory.Packages.props` and
-float within the latest 1.x release line, including previews. Plugin releases
-are versioned independently of the engine; a successful restore/build does not
-prove runtime compatibility.
-
-## Project guidance
-
-- [Contributing](CONTRIBUTING.md)
-- [Support](SUPPORT.md)
-- [Security policy](SECURITY.md)
-- [Changelog](CHANGELOG.md)
+Open `http://localhost:5000/`. The sample includes English, Korean, missing translations, and preview-only publication statuses. Stop preview before rebuilding Razor components.
