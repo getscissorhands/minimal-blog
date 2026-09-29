@@ -7,6 +7,8 @@ Release headings use the current tags and original publication dates.
 
 ## [Unreleased]
 
+## [v1.0.0-preview.20260929.1] - 2026-09-29
+
 ### Added
 
 - Theme-owned language switching, canonical/alternate metadata, and encoded
@@ -14,7 +16,10 @@ Release headings use the current tags and original publication dates.
 - Preview publication badges for detail and listing content, including combined
   draft/scheduled and inherited translation status, with required regions and
   machine-readable dates.
-- English/Korean translation, fallback, draft, and scheduled sample fixtures.
+- English/Korean translation, fallback, draft, and scheduled sample fixtures,
+  including nested navigation, hidden pages, and custom not-found content.
+- Per-post hero images for the Hello and scheduled examples, with a shared
+  calendar illustration for the scheduled posts.
 
 ### Changed
 
@@ -24,6 +29,12 @@ Release headings use the current tags and original publication dates.
   translations; removed legacy locale settings.
 - Forwarded `LocaleContext` to views/plugins and used active-locale prepared
   navigation, Home, Tags, and language-switch destinations.
+- Aligned sample content with the theme template, including Korean translations;
+  moved the language picker into the header and bundled navigation icons locally.
+- Renamed the solution and Razor project to match the theme slug. Kept package
+  versions floating in the latest 1.x line.
+- Removed the site-wide hero setting and unused sample/theme images while
+  retaining optional per-document hero images.
 - Documented `Site.TimeZone`, scheduled rebuild/deployment, unpublished preview
   exposure, and root/subpath verification without deploying the demo.
 
@@ -31,15 +42,12 @@ Release headings use the current tags and original publication dates.
 
 - Restored the footer's About link on additional-locale routes by matching the
   engine's locale-prefixed navigation paths while retaining its prepared URLs.
-- Preserved the sample's cross-language fragment destination in the translated
-  Hello World heading.
 - Verified the independently published Google Analytics/Open Graph
   `1.0.0-preview.20260927.1` packages. The older Open Graph
   `1.0.0-preview.20260915.1` compiled but failed generation by calling the removed
   `SiteManifest.Locale` API; the upstream migration is tracked in
   [getscissorhands/plugins#17](https://github.com/getscissorhands/plugins/issues/17)
   and [getscissorhands/plugins#18](https://github.com/getscissorhands/plugins/pull/18).
-  See the [sample compatibility record](sample/README.md#tested-versions).
 
 ## [v1.0.0-preview.20260915.1] - 2026-09-15
 
@@ -110,7 +118,8 @@ Release headings use the current tags and original publication dates.
 
 - Initial Minimal Blog theme and release workflow.
 
-[Unreleased]: https://github.com/getscissorhands/minimal-blog/compare/v1.0.0-preview.20260915.1...HEAD
+[Unreleased]: https://github.com/getscissorhands/minimal-blog/compare/v1.0.0-preview.20260929.1...HEAD
+[v1.0.0-preview.20260929.1]: https://github.com/getscissorhands/minimal-blog/compare/v1.0.0-preview.20260915.1...v1.0.0-preview.20260929.1
 [v1.0.0-preview.20260915.1]: https://github.com/getscissorhands/minimal-blog/compare/v1.0.0-preview.20260102.1...v1.0.0-preview.20260915.1
 [v1.0.0-preview.20260102.1]: https://github.com/getscissorhands/minimal-blog/compare/v1.0.0-preview.20251226.2...v1.0.0-preview.20260102.1
 [v1.0.0-preview.20251226.2]: https://github.com/getscissorhands/minimal-blog/compare/v1.0.0-preview.20251226.1...v1.0.0-preview.20251226.2
