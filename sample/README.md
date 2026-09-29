@@ -45,6 +45,9 @@ Production excludes drafts and future posts.
 This theme has no site-wide hero image section. Add your own images to
 `contents/images/` when needed; post and page images remain optional
 per-document content. The home-page text heading is unaffected.
+The language picker now lives in the header and works without JavaScript;
+Escape closes its menu when JavaScript is enabled. The GitHub icon is bundled
+with the theme instead of loaded from an external icon service.
 
 ## Base path and localization
 
