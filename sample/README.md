@@ -42,4 +42,4 @@ Never deploy `preview/`: it includes draft and scheduled content.
 
 ### Open Graph
 
-- `TwitterSiteId`: `@getscissorhands` is used, which needs to be replaced with a real one. If you don't have a Twitter account, remove this.
+- `TwitterSiteId`: `@getscissorhands` is used, which needs to be replaced with yours. If you don't have a Twitter account, remove this.

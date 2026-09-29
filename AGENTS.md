@@ -13,14 +13,14 @@ Use the [theme documentation](https://getscissorhands.app/docs/themes/) for engi
 
 Run from the repository root:
 
-```shell
+```bash
 dotnet restore
 dotnet build
 ```
 
 Run the preview or static build from `sample`:
 
-```shell
+```bash
 dotnet run -- --preview
 dotnet run -- --build
 ```

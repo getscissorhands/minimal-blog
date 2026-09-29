@@ -18,11 +18,49 @@ This theme includes the following plugins:
 
 The default configuration of the plugins above, refer to the [sample README](./sample/README.md#plugin-settings).
 
+## Theme Layout
+
+```text
+src/
+├── assets/
+│   ├── css/
+│   │   └── theme.css
+│   ├── images/
+│   │   └── icons/
+│   │       ├── chevron-down.svg
+│   │       ├── github.svg
+│   │       ├── globe.svg
+│   │       ├── moon-icon.svg
+│   │       └── sun-icon.svg
+│   └── js/
+│       └── theme.js
+├── Components/
+│   ├── Footer.razor
+│   ├── Header.razor
+│   ├── LanguageSwitcher.razor
+│   ├── LocalizationFallbackBanner.razor
+│   ├── LocalizationMetadata.razor
+│   ├── PostCard.razor
+│   ├── PublicationBadges.razor
+│   └── TagList.razor
+├── favicon.ico
+├── theme.json
+├── minimal-blog.csproj
+├── _Imports.razor
+├── MainLayout.razor
+├── IndexView.razor
+├── PostView.razor
+├── PageView.razor
+├── NotFoundView.razor
+├── TagListView.razor
+└── TagView.razor
+```
+
 ## Local Preview
 
 The sample needs the committed symbolic link at `sample/themes/minimal-blog` pointing to `src`, with the relative target `../../src`. Recreate it manually if your checkout did not preserve symlinks.
 
-If the link is missing, run one of the following from the repository root.
+Here are the commands:
 
 ```bash
 # zsh/bash
