@@ -1,0 +1,31 @@
+@namespace ScissorHands.Theme.MinimalBlog.Components
+
+@foreach (var item in Nodes)
+{
+    var submenuId = $"navigation-submenu-{item.Path}";
+    <li class="navigation-item">
+        <div class="navigation-link">
+            @if (item.Url is not null)
+            {
+                <a href="@item.Url">@item.Title</a>
+            }
+            else
+            {
+                <span class="navigation-label">@item.Title</span>
+            }
+            @if (item.Children.Count > 0)
+            {
+                <button class="navigation-toggle" type="button" aria-expanded="false"
+                        aria-controls="@submenuId" aria-label="@($"Toggle {item.Title} pages")" hidden>
+                    <span aria-hidden="true">&#9662;</span>
+                </button>
+            }
+        </div>
+        @if (item.Children.Count > 0)
+        {
+            <ul class="navigation-children" id="@submenuId">
+                <NavigationItems Nodes="@item.Children" />
+            </ul>
+        }
+    </li>
+}
