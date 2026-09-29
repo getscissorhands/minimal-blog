@@ -1,11 +1,13 @@
 ---
-title: Draft post
+title: Draft post preview
+description: A draft shown on the preview home and tag pages only.
 slug: draft-post
-published: 2025-12-15
+published: 2026-09-14
 draft: true
 tags:
-  - preview
+  - publication-preview
 ---
 
-This draft has no translation. Korean preview shows primary content with both
-a translation notice and a localized draft badge. It is excluded from builds.
+This draft has no Korean translation. Preview shows a draft badge on this article and its listing entries; the Korean route also shows the translation-unavailable notice.
+
+Production excludes both routes. Never deploy preview output.

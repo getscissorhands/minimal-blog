@@ -1,8 +1,8 @@
 ---
 title: Page not found
-description: The requested page could not be found.
+description: The requested sample page does not exist.
 slug: 404.html
 ---
 
-The requested page is not available. Return to the [home page](.) or
-choose a page from the navigation.
+The requested address does not match a generated page. Use the site navigation
+to find a post or page.

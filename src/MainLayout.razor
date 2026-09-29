@@ -10,6 +10,7 @@
                          LocaleContext="@LocaleContext"
                          Plugins="@Plugins"
                          Theme="@Theme"
+                         ThemeSettings="@ThemeSettings"
                          Site="@Site">
 
 <!DOCTYPE html>
@@ -54,7 +55,6 @@
 <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
     <Header NavigationTree="@NavigationTree" HomeUrl="@GetHomeUrl()" TagIndexUrl="@GetTagIndexUrl()" />
-    <LanguageSwitcher />
 
     <main id="main-content" class="site-main">
         @Body

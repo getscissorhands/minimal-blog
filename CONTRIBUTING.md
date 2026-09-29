@@ -12,7 +12,7 @@ and create a `type/short-kebab-case-description` branch, such as `fix/tag-links`
 On Windows, follow the [symlink setup](README.md#local-preview) before building.
 From the repository root:
 
-```shell
+```bash
 dotnet restore
 dotnet build --configuration Release --no-restore
 ```
