@@ -9,15 +9,6 @@ See [the demo](https://getscissorhands.app/minimal-blog/) or read the **[theme d
 - [.NET 10+ SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
 - [Visual Studio 2026](https://visualstudio.microsoft.com/) or [VS Code](https://code.visualstudio.com/) with [C# Dev Kit](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit)
 
-## Plugins
-
-This theme includes the following plugins:
-
-- [Google Analytics](https://github.com/getscissorhands/plugins/tree/main/src/ScissorHands.Plugin.GoogleAnalytics)
-- [Open Graph](https://github.com/getscissorhands/plugins/tree/main/src/ScissorHands.Plugin.OpenGraph)
-
-The default configuration of the plugins above, refer to the [sample README](./sample/README.md#plugin-settings).
-
 ## Theme Layout
 
 ```text
@@ -55,6 +46,15 @@ src/
 ├── TagListView.razor
 └── TagView.razor
 ```
+
+## Plugins
+
+This theme includes the following plugins:
+
+- [Google Analytics](https://github.com/getscissorhands/plugins/tree/main/src/ScissorHands.Plugin.GoogleAnalytics)
+- [Open Graph](https://github.com/getscissorhands/plugins/tree/main/src/ScissorHands.Plugin.OpenGraph)
+
+The default configuration of the plugins above, refer to the [sample README](./sample/README.md#plugin-settings).
 
 ## Local Preview
 
