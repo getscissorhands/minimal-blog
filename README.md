@@ -27,13 +27,20 @@ src/
 │       └── theme.js
 ├── Components/
 │   ├── Footer.razor
+│   ├── Footer.razor.cs
 │   ├── Header.razor
+│   ├── Header.razor.cs
 │   ├── LanguageSwitcher.razor
 │   ├── LocalizationFallbackBanner.razor
 │   ├── LocalizationMetadata.razor
+│   ├── NavigationItems.razor
+│   ├── NavigationItems.razor.cs
 │   ├── PostCard.razor
+│   ├── PostCard.razor.cs
 │   ├── PublicationBadges.razor
-│   └── TagList.razor
+│   ├── PublicationBadges.razor.cs
+│   ├── TagList.razor
+│   └── TagList.razor.cs
 ├── favicon.ico
 ├── theme.json
 ├── minimal-blog.csproj

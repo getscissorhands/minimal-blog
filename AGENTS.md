@@ -30,8 +30,8 @@ dotnet run -- --build
 - Keep exactly one concrete implementation of each view role: `MainLayout`, `IndexView`, `PostView`, `PageView`, `NotFoundView`, `TagListView`, and `TagView`.
 - Keep `src/theme.json` slug `minimal-blog`, `Site:Theme`, the sample theme link, and namespace `ScissorHands.Theme.MinimalBlog` aligned.
 - Keep startup on automatic discovery through `new ScissorHandsApplicationBuilder(args).Build()`.
-- Forward all layout context through `CascadingMainLayoutBase`: documents, tag data, current document, page navigation, plugins, theme, and site.
-- Render the engine-provided `NavigationTree` and `PageNavigation`; do not rebuild or re-escape their URLs.
+- Forward `Documents`, `TaggedDocuments`, `Tag`, `TaggedPosts`, `TaggedPages`, `Document`, `PageNavigation`, `LocaleContext`, `Plugins`, `Theme`, `ThemeSettings`, and `Site` through `CascadingMainLayoutBase`. Preserve the requested locale separately from the content language.
+- Pass the layout-only `NavigationTree` explicitly to header and footer, and render engine-provided navigation and `PageNavigation` URLs unchanged. A node without a URL is a non-clickable group; show previous/next links only when present.
 - Treat manifest collections as read-only and keep package versions centralized with versionless project references.
 
 ## URLs and rendering
@@ -45,12 +45,14 @@ dotnet run -- --build
 
 - Preserve the existing visual identity and responsive behavior.
 - Keep navigation usable without JavaScript and retain keyboard focus, accessible labels, Escape dismissal, reduced-motion support, and readable light/dark contrast.
-- Keep the colour toggle functional when browser storage is unavailable.
+- Preserve the system light/dark preference when no choice is stored, and keep the colour toggle functional when browser storage is unavailable.
 
 ## Validation
 
 - After Razor, package, navigation, or asset changes, restore and build the solution, then generate or preview the sample and inspect affected routes.
 - Check posts, pages, both tag views, the 404 page, navigation, assets, plugins, and root plus subpath `Site.BaseUrl` behavior when relevant.
+- For UI changes, check mobile and desktop widths, light/dark modes including system preference, keyboard focus and Escape, and navigation without JavaScript.
 - The repository currently has no automated test project; do not report an empty `dotnet test` run as test coverage.
 - Do not commit generated `bin`, `obj`, `sample/preview`, `sample/dist`, or packaged outputs.
 - Keep changes focused and update directly related documentation. Follow [CONTRIBUTING.md](CONTRIBUTING.md) for branch, commit, and pull request rules.
+- Branch-push CI runs on `main` and the type-prefixed branches listed in the [workflow](.github/workflows/main.yaml); PRs targeting `main` build regardless of the head branch name.

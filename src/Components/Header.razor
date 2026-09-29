@@ -1,4 +1,4 @@
-@namespace ScissorHands.Theme.MinimalBlog.Components.Header
+@namespace ScissorHands.Theme.MinimalBlog.Components
 
 <header class="site-header">
     <div class="site-header inner">
@@ -8,7 +8,7 @@
         <nav class="site-navigation" aria-label="Primary navigation">
             <ul class="navigation-list">
                 <li><a href="@HomeUrl">Home</a></li>
-                @RenderNavigation(NavigationTree)
+                <NavigationItems Nodes="@NavigationTree" />
                 @if (TagIndexUrl is not null)
                 {
                     <li><a href="@TagIndexUrl">Tags</a></li>
@@ -17,8 +17,8 @@
                 <li class="header-actions">
                     <button class="dark-mode-toggle" type="button" data-theme-toggle
                             aria-label="Switch to dark mode" title="Switch to dark mode" hidden>
-                        <img src="@GetThemeAssetUrl("assets/images/icons/sun-icon.svg")" alt="" class="sun-icon" width="24" height="24" />
-                        <img src="@GetThemeAssetUrl("assets/images/icons/moon-icon.svg")" alt="" class="moon-icon" width="24" height="24" />
+                        <span class="sun-icon" aria-hidden="true"></span>
+                        <span class="moon-icon" aria-hidden="true"></span>
                     </button>
                     <a class="github-link" href="https://github.com/getscissorhands/minimal-blog" target="_blank" rel="noopener noreferrer"
                        aria-label="View Minimal Blog on GitHub" title="GitHub">
@@ -29,66 +29,3 @@
         </nav>
     </div>
 </header>
-
-@code {
-    /// <summary>
-    /// Gets or sets the <see cref="SiteManifest"/> instance.
-    /// </summary>
-    [CascadingParameter]
-    public SiteManifest? Site { get; set; }
-
-    /// <summary>
-    /// Gets or sets the <see cref="ThemeManifest"/> instance.
-    /// </summary>
-    [CascadingParameter]
-    public ThemeManifest? Theme { get; set; }
-
-    /// <summary>
-    /// Gets or sets the engine-prepared navigation hierarchy.
-    /// </summary>
-    [Parameter]
-    public IReadOnlyList<NavigationNode> NavigationTree { get; set; } = [];
-
-    [Parameter]
-    public string HomeUrl { get; set; } = ".";
-
-    [Parameter]
-    public string? TagIndexUrl { get; set; }
-
-    private string GetThemeAssetUrl(string path)
-    {
-        return ContentUrlHelper.GetThemeUrl(Theme!.Slug, path);
-    }
-
-    private RenderFragment RenderNavigation(IReadOnlyList<NavigationNode> nodes) => @<text>
-        @foreach (var item in nodes)
-        {
-            var submenuId = $"navigation-submenu-{item.Path}";
-            <li class="navigation-item">
-                <div class="navigation-link">
-                    @if (item.Url is not null)
-                    {
-                        <a href="@item.Url">@item.Title</a>
-                    }
-                    else
-                    {
-                        <span class="navigation-label">@item.Title</span>
-                    }
-                    @if (item.Children.Count > 0)
-                    {
-                        <button class="navigation-toggle" type="button" aria-expanded="false"
-                                aria-controls="@submenuId" aria-label="@($"Toggle {item.Title} pages")" hidden>
-                            <span aria-hidden="true">&#9662;</span>
-                        </button>
-                    }
-                </div>
-                @if (item.Children.Count > 0)
-                {
-                    <ul class="navigation-children" id="@submenuId">
-                        @RenderNavigation(item.Children)
-                    </ul>
-                }
-            </li>
-        }
-    </text>;
-}
