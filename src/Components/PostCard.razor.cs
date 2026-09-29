@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Components;
 using ScissorHands.Core.Models;
 using ScissorHands.Theme;
 
-namespace ScissorHands.Theme.MinimalBlog.Components.PostCard;
+namespace ScissorHands.Theme.MinimalBlog.Components;
 
-public partial class PostCard
+public partial class PostCard : ComponentBase
 {
     [CascadingParameter]
     public LocaleContext? LocaleContext { get; set; }

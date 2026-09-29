@@ -3,10 +3,11 @@ using ScissorHands.Core.Manifests;
 using ScissorHands.Core.Models;
 using ScissorHands.Core.Urls;
 using ScissorHands.Theme;
+using ScissorHands.Theme.Components;
 
 namespace ScissorHands.Theme.MinimalBlog.Components;
 
-public partial class PublicationBadges
+public partial class PublicationBadges : PublicationBadgeBase
 {
     [CascadingParameter]
     public LocaleContext? LocaleContext { get; set; }

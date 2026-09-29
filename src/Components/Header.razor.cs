@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Components;
 using ScissorHands.Core.Manifests;
 using ScissorHands.Core.Models;
 
-namespace ScissorHands.Theme.MinimalBlog.Components.Header;
+namespace ScissorHands.Theme.MinimalBlog.Components;
 
-public partial class Header
+public partial class Header : ComponentBase
 {
     /// <summary>
     /// Gets or sets the <see cref="SiteManifest"/> instance.

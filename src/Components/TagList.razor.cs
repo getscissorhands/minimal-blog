@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Components;
 
-namespace ScissorHands.Theme.MinimalBlog.Components.TagList;
+namespace ScissorHands.Theme.MinimalBlog.Components;
 
-public partial class TagList
+public partial class TagList : ComponentBase
 {
     /// <summary>
     /// Gets or sets the collection of tags to display.
