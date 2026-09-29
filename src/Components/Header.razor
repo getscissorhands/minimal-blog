@@ -17,8 +17,8 @@
                 <li class="header-actions">
                     <button class="dark-mode-toggle" type="button" data-theme-toggle
                             aria-label="Switch to dark mode" title="Switch to dark mode" hidden>
-                        <img src="@GetThemeAssetUrl("assets/images/icons/sun-icon.svg")" alt="" class="sun-icon" width="24" height="24" />
-                        <img src="@GetThemeAssetUrl("assets/images/icons/moon-icon.svg")" alt="" class="moon-icon" width="24" height="24" />
+                        <span class="sun-icon" aria-hidden="true"></span>
+                        <span class="moon-icon" aria-hidden="true"></span>
                     </button>
                     <a class="github-link" href="https://github.com/getscissorhands/minimal-blog" target="_blank" rel="noopener noreferrer"
                        aria-label="View Minimal Blog on GitHub" title="GitHub">
@@ -38,12 +38,6 @@
     public SiteManifest? Site { get; set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="ThemeManifest"/> instance.
-    /// </summary>
-    [CascadingParameter]
-    public ThemeManifest? Theme { get; set; }
-
-    /// <summary>
     /// Gets or sets the engine-prepared navigation hierarchy.
     /// </summary>
     [Parameter]
@@ -54,11 +48,6 @@
 
     [Parameter]
     public string? TagIndexUrl { get; set; }
-
-    private string GetThemeAssetUrl(string path)
-    {
-        return ContentUrlHelper.GetThemeUrl(Theme!.Slug, path);
-    }
 
     private RenderFragment RenderNavigation(IReadOnlyList<NavigationNode> nodes) => @<text>
         @foreach (var item in nodes)

@@ -45,11 +45,11 @@
     }
 
     :root:not([data-theme="light"]) .sun-icon {
-        display: none;
+        display: block;
     }
 
     :root:not([data-theme="light"]) .moon-icon {
-        display: block;
+        display: none;
     }
 }
 
@@ -175,6 +175,11 @@ button:focus-visible {
 .navigation-toggle:hover,
 .dark-mode-toggle:hover {
     background: rgba(239, 68, 68, 0.1);
+}
+
+.site-navigation a:hover,
+.navigation-toggle:hover,
+.dark-mode-toggle:hover {
     color: var(--accent);
 }
 
@@ -217,11 +222,10 @@ button:focus-visible {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text);
+    color: var(--muted);
     transition: opacity 0.2s ease;
 }
 
-.dark-mode-toggle:hover,
 .github-link:hover {
     opacity: 0.7;
 }
@@ -234,16 +238,31 @@ button:focus-visible {
     mask: url("../images/icons/github.svg") center / contain no-repeat;
 }
 
+.sun-icon,
 .moon-icon {
+    display: block;
+    width: 24px;
+    height: 24px;
+    background: currentColor;
+}
+
+.sun-icon {
     display: none;
+    -webkit-mask: url("../images/icons/sun-icon.svg") center / contain no-repeat;
+    mask: url("../images/icons/sun-icon.svg") center / contain no-repeat;
+}
+
+.moon-icon {
+    -webkit-mask: url("../images/icons/moon-icon.svg") center / contain no-repeat;
+    mask: url("../images/icons/moon-icon.svg") center / contain no-repeat;
 }
 
 :root[data-theme="dark"] .sun-icon {
-    display: none;
+    display: block;
 }
 
 :root[data-theme="dark"] .moon-icon {
-    display: block;
+    display: none;
 }
 
 .language-switcher {
@@ -818,6 +837,14 @@ button:focus-visible {
 
 .site-footer p {
     margin: 0;
+}
+
+.site-footer p a {
+    color: inherit;
+}
+
+.site-footer p a:hover {
+    color: var(--accent);
 }
 
 /* Responsive Design */
