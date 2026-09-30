@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Components;
 using ScissorHands.Core.Manifests;
 using ScissorHands.Core.Models;
 using ScissorHands.Core.Urls;
@@ -9,9 +8,6 @@ namespace ScissorHands.Theme.MinimalBlog.Components;
 
 public partial class PublicationBadges : PublicationBadgeBase
 {
-    [CascadingParameter]
-    public LocaleContext? LocaleContext { get; set; }
-
     private ThemeLocalization GetMessages()
     {
         if (Site?.IsLocalizationEnabled != true)
@@ -19,8 +15,9 @@ public partial class PublicationBadges : PublicationBadgeBase
             return ThemeLocalization.English;
         }
 
+        var settings = ThemeSettings ?? throw new InvalidOperationException("Theme settings are required to render publication badges.");
         var locale = ContentUrlHelper.GetLocaleSegment(LocaleContext?.Locale ?? Site.Locales[0]);
-        if (ThemeSettings.Localization.TryGetValue(locale, out var messages) != true || messages is null
+        if (settings.Localization.TryGetValue(locale, out var messages) != true || messages is null
             || string.IsNullOrWhiteSpace(messages.Draft) || string.IsNullOrWhiteSpace(messages.ScheduledOn))
         {
             throw new InvalidOperationException($"Theme:Localization:{locale} must supply Draft and ScheduledOn messages before rendering publication badges.");
