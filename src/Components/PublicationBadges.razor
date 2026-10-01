@@ -2,7 +2,7 @@
 
 @if (Badges.Count > 0)
 {
-    var messages = GetMessages();
+    var messages = PublicationMessages;
     <span class="publication-badges" lang="@LocaleContext?.Locale">
         @foreach (var badge in Badges)
         {
