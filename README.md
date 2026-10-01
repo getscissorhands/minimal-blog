@@ -27,19 +27,19 @@ src/
 │       └── theme.js
 ├── Components/
 │   ├── Footer.razor
-│   ├── Footer.razor.cs
+│   │   └── Footer.razor.cs
 │   ├── Header.razor
-│   ├── Header.razor.cs
+│   │   └── Header.razor.cs
 │   ├── LanguageSwitcher.razor
 │   ├── LocalizationFallbackBanner.razor
 │   ├── LocalizationMetadata.razor
 │   ├── NavigationItems.razor
-│   ├── NavigationItems.razor.cs
+│   │   └── NavigationItems.razor.cs
 │   ├── PostCard.razor
-│   ├── PostCard.razor.cs
+│   │   └── PostCard.razor.cs
 │   ├── PublicationBadges.razor
-│   ├── TagList.razor
-│   └── TagList.razor.cs
+│   └── TagList.razor
+│       └── TagList.razor.cs
 ├── favicon.ico
 ├── theme.json
 ├── minimal-blog.csproj
@@ -52,6 +52,9 @@ src/
 ├── TagListView.razor
 └── TagView.razor
 ```
+
+Indented `.razor.cs` entries show which components they belong to; on disk,
+they sit beside their `.razor` files in `src/Components/`.
 
 ## Plugins
 
