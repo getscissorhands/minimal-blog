@@ -7,6 +7,13 @@ Release headings use the current tags and original publication dates.
 
 ## [Unreleased]
 
+## [v1.0.0-preview.20260930.1] - 2026-09-30
+
+### Changed
+
+- Renamed the colour-toggle assets to `moon.svg` and `sun.svg`, updating the
+  theme's CSS paths and the README layout.
+
 ### Fixed
 
 - Adapted publication badges to the ScissorHands
@@ -144,7 +151,8 @@ Release headings use the current tags and original publication dates.
 
 - Initial Minimal Blog theme and release workflow.
 
-[Unreleased]: https://github.com/getscissorhands/minimal-blog/compare/v1.0.0-preview.20260929.2...HEAD
+[Unreleased]: https://github.com/getscissorhands/minimal-blog/compare/v1.0.0-preview.20260930.1...HEAD
+[v1.0.0-preview.20260930.1]: https://github.com/getscissorhands/minimal-blog/compare/v1.0.0-preview.20260929.2...v1.0.0-preview.20260930.1
 [v1.0.0-preview.20260929.2]: https://github.com/getscissorhands/minimal-blog/compare/v1.0.0-preview.20260929.1...v1.0.0-preview.20260929.2
 [v1.0.0-preview.20260929.1]: https://github.com/getscissorhands/minimal-blog/compare/v1.0.0-preview.20260915.1...v1.0.0-preview.20260929.1
 [v1.0.0-preview.20260915.1]: https://github.com/getscissorhands/minimal-blog/compare/v1.0.0-preview.20260102.1...v1.0.0-preview.20260915.1
