@@ -21,8 +21,8 @@ src/
 │   │       ├── chevron-down.svg
 │   │       ├── github.svg
 │   │       ├── globe.svg
-│   │       ├── moon-icon.svg
-│   │       └── sun-icon.svg
+│   │       ├── moon.svg
+│   │       └── sun.svg
 │   └── js/
 │       └── theme.js
 ├── Components/

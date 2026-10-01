@@ -7,6 +7,13 @@ Release headings use the current tags and original publication dates.
 
 ## [Unreleased]
 
+### Fixed
+
+- Adapted publication badges to the ScissorHands
+  `1.0.0-preview.20260930.1` packages by using the localized publication
+  messages and locale context supplied by the base component. Package versions
+  remain floating within the latest 1.x line.
+
 ## [v1.0.0-preview.20260929.2] - 2026-09-29
 
 ### Added
