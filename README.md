@@ -38,7 +38,6 @@ src/
 │   ├── PostCard.razor
 │   ├── PostCard.razor.cs
 │   ├── PublicationBadges.razor
-│   ├── PublicationBadges.razor.cs
 │   ├── TagList.razor
 │   └── TagList.razor.cs
 ├── favicon.ico
